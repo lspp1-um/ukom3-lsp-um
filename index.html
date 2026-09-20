@@ -14,10 +14,10 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- PapaParse CDN for robust CSV handling from Google Sheets -->
+    <!-- PapaParse CDN for robust CSV handling -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-    <!-- SheetJS (xlsx) for fallback Excel handling -->
+    <!-- SheetJS (xlsx) for manual Excel fallback -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <script>
@@ -70,7 +70,6 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex flex-col justify-between selection:bg-amber-100 selection:text-amber-900 antialiased">
 
-    <!-- Header / Navigation Bar -->
     <header class="bg-um-navy text-white border-b border-slate-700/50 sticky top-0 z-30 shadow-md">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
             <div class="flex items-center space-x-3 min-w-0">
@@ -85,9 +84,9 @@
             
             <div class="no-print flex items-center space-x-2">
                 <!-- Data Sync Status Badge -->
-                <div id="syncBadge" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-medium">
+                <div id="syncBadge" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-medium">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span id="syncText">Data Terhubung</span>
+                    <span id="syncText">Memuat Data...</span>
                 </div>
 
                 <!-- Admin Access Button -->
@@ -99,7 +98,6 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 flex-grow w-full space-y-6 sm:space-y-8">
         
         <!-- Hero Header -->
@@ -121,8 +119,9 @@
                 <i id="statusIcon" class="fa-solid fa-spinner fa-spin text-blue-600 text-sm"></i>
                 <span id="statusMessage" class="font-medium">Menghubungkan ke basis data Google Sheets...</span>
             </div>
-            <button onclick="muatDataGoogleSheets(true)" class="text-blue-700 hover:text-blue-900 font-bold underline text-[11px] no-print">
-                <i class="fa-solid fa-arrows-rotate mr-1"></i>Muat Ulang
+            <button onclick="muatDataGoogleSheets(true)" class="text-blue-700 hover:text-blue-900 font-bold underline text-[11px] no-print flex items-center space-x-1">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span>Muat Ulang</span>
             </button>
         </div>
 
@@ -142,12 +141,12 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                             <i class="fa-solid fa-magnifying-glass text-sm"></i>
                         </div>
-                        <input type="text" id="searchInput" required placeholder="Masukkan Nomor Induk Mahasiswa (NIM) atau Nama..." autocomplete="off"
+                        <input type="text" id="searchInput" required placeholder="Masukkan NIM atau Nama Lengkap Mahasiswa..." autocomplete="off"
                             class="w-full pl-10 pr-4 py-3 sm:py-3.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-um-blue focus:border-um-blue focus:bg-white text-slate-800 text-sm sm:text-base font-medium tracking-wide transition outline-none">
                     </div>
                     <p class="text-[11px] sm:text-xs text-slate-500 mt-2 flex items-start sm:items-center">
                         <i class="fa-solid fa-circle-info text-slate-400 mr-1.5 mt-0.5 sm:mt-0 flex-shrink-0"></i>
-                        <span>Pastikan NIM atau nama yang Anda masukkan sesuai dengan pendaftaran UKOM Gel. 3.</span>
+                        <span>Sistem pencarian mendukung kecocokan NIM maupun Nama Mahasiswa.</span>
                     </p>
                 </div>
 
@@ -167,7 +166,6 @@
 
     </main>
 
-    <!-- Admin & Management Modal -->
     <div id="adminModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
             <!-- Modal Header -->
@@ -222,7 +220,7 @@
                 <div class="border-2 border-dashed border-slate-300 hover:border-um-blue rounded-xl p-5 text-center bg-slate-50 transition cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
                     <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-400 mb-2"></i>
                     <h4 class="font-bold text-slate-700 text-xs sm:text-sm">Unggah File Excel Manual (.xlsx / .csv)</h4>
-                    <p class="text-[11px] text-slate-500 mt-1">Opsional jika ingin mengganti database secara offline</p>
+                    <p class="text-[11px] text-slate-500 mt-1">Gunakan ini jika Google Sheets sedang bermasalah</p>
                     <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)">
                 </div>
 
@@ -259,9 +257,6 @@
     </footer>
 
     <script>
-        // =========================================================================
-        // GOOGLE SHEETS LIVE DATABASE URL
-        // =========================================================================
         const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4jT7tlOszvmHbLOwSgkxzahNkpT3cNlC5UdbEY_vcqnaokJoS2_FWwsXqAV2i5g/pub?output=csv";
 
         let DATABASE_LSP_UM = [];
@@ -269,12 +264,41 @@
         let isAdminLoggedIn = false;
         const ADMIN_PIN = "ukomgel3lsp";
 
-        // Fungsi membaca data dari Google Sheets dengan PapaParse (Anti Error Koma & Baris Baru)
-        function muatDataGoogleSheets(isManualRefresh = false) {
-            updateStatusUI('loading', 'Mengunduh data terbaru dari Google Sheets...');
+        async function muatDataGoogleSheets(isManualRefresh = false) {
+            updateStatusUI('loading', 'Mengunduh data dari Google Sheets...');
 
-            Papa.parse(GOOGLE_SHEETS_CSV_URL, {
-                download: true,
+            // Daftar URL fallback untuk menghindari masalah CORS pada iframe/file:// lokal
+            const urlsToTry = [
+                GOOGLE_SHEETS_CSV_URL,
+                `https://corsproxy.io/?${encodeURIComponent(GOOGLE_SHEETS_CSV_URL)}`,
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(GOOGLE_SHEETS_CSV_URL)}`
+            ];
+
+            let csvText = null;
+            let lastError = null;
+
+            for (const url of urlsToTry) {
+                try {
+                    const response = await fetch(url, { cache: "no-cache" });
+                    if (response.ok) {
+                        const text = await response.text();
+                        if (text && text.trim().length > 0 && !text.trim().toLowerCase().startsWith("<!doctype")) {
+                            csvText = text;
+                            break;
+                        }
+                    }
+                } catch (err) {
+                    lastError = err;
+                }
+            }
+
+            if (!csvText) {
+                console.error("Gagal mengambil CSV Google Sheets:", lastError);
+                fallbackToCacheOrDemo("Koneksi diblokir atau file Google Sheets belum terjangkau.");
+                return;
+            }
+
+            Papa.parse(csvText, {
                 skipEmptyLines: true,
                 complete: function(results) {
                     try {
@@ -283,9 +307,9 @@
                             throw new Error("Data Google Sheets kosong.");
                         }
 
-                        // Deteksi otomatis baris header yang mengandung kata NIM/NAMA
+                        // Deteksi baris header secara fleksibel
                         let headerRowIndex = 0;
-                        for (let i = 0; i < Math.min(rows.length, 5); i++) {
+                        for (let i = 0; i < Math.min(rows.length, 10); i++) {
                             const rowStr = rows[i].join(" ").toLowerCase();
                             if (rowStr.includes("nim") || rowStr.includes("nama")) {
                                 headerRowIndex = i;
@@ -295,7 +319,6 @@
 
                         const headers = rows[headerRowIndex].map(h => String(h).trim().toLowerCase());
                         
-                        // Cari posisi kolom secara terencana
                         const findColIndex = (keywords) => {
                             return headers.findIndex(h => keywords.some(kw => h.includes(kw)));
                         };
@@ -307,7 +330,6 @@
                         const statusIdx = findColIndex(['status', 'hasil', 'kelulusan', 'ket']);
                         const catatanIdx = findColIndex(['catatan', 'alasan', 'keterangan', 'rekomendasi']);
 
-                        // Memproses data menjadi array objek yang bersih
                         const processedData = [];
                         for (let i = headerRowIndex + 1; i < rows.length; i++) {
                             const row = rows[i];
@@ -316,7 +338,6 @@
                             const nimVal = nimIdx !== -1 ? String(row[nimIdx] || '').trim() : String(row[0] || '').trim();
                             const namaVal = namaIdx !== -1 ? String(row[namaIdx] || '').trim() : String(row[1] || '').trim();
 
-                            // Lewati jika NIM dan Nama tidak ada
                             if (!nimVal && !namaVal) continue;
 
                             processedData.push({
@@ -329,10 +350,14 @@
                             });
                         }
 
+                        if (processedData.length === 0) {
+                            throw new Error("Tidak ditemukan baris data mahasiswa yang valid.");
+                        }
+
                         DATABASE_LSP_UM = processedData;
                         activeDatabase = [...DATABASE_LSP_UM];
 
-                        // Simpan ke Cache Lokal untuk Cadangan
+                        // Simpan ke Cache Lokal
                         localStorage.setItem('lsp_um_cache_data', JSON.stringify(DATABASE_LSP_UM));
 
                         updateDataCount();
@@ -342,16 +367,14 @@
                             alertCustom(`Berhasil sinkronisasi ${activeDatabase.length} data mahasiswa!`, 'success');
                         }
 
-                        console.log("Database LSP-P1 UM siap:", activeDatabase.length, "baris data.");
-
                     } catch (err) {
                         console.error("Gagal memproses CSV:", err);
                         fallbackToCacheOrDemo(err.message);
                     }
                 },
                 error: function(err) {
-                    console.error("Gagal mendownload Google Sheets CSV:", err);
-                    fallbackToCacheOrDemo("Gagal terhubung ke koneksi internet atau server Google.");
+                    console.error("Gagal parse CSV:", err);
+                    fallbackToCacheOrDemo("Format CSV Google Sheets tidak valid.");
                 }
             });
         }
@@ -368,7 +391,7 @@
                 } catch(e) {}
             }
 
-            updateStatusUI('error', `Gagal memuat data Google Sheets (${errMsg}). Memuat data demo.`);
+            updateStatusUI('error', `Gagal memuat data (${errMsg}). Silakan tekan 'Muat Ulang'.`);
         }
 
         function updateStatusUI(type, message) {
@@ -378,26 +401,27 @@
             const syncBadge = document.getElementById('syncBadge');
             const syncText = document.getElementById('syncText');
 
-            msg.innerText = message;
+            if (msg) msg.innerText = message;
 
             if (type === 'loading') {
-                banner.className = "bg-blue-50 border border-blue-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-blue-900 transition-all";
-                icon.className = "fa-solid fa-spinner fa-spin text-blue-600 text-sm";
+                if (banner) banner.className = "bg-blue-50 border border-blue-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-blue-900 transition-all";
+                if (icon) icon.className = "fa-solid fa-spinner fa-spin text-blue-600 text-sm";
+                if (syncText) syncText.innerText = "Mengunduh Data...";
             } else if (type === 'success') {
-                banner.className = "bg-emerald-50 border border-emerald-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-emerald-900 transition-all";
-                icon.className = "fa-solid fa-circle-check text-emerald-600 text-sm";
-                syncBadge.classList.remove('hidden');
-                syncText.innerText = `${activeDatabase.length} Data Terhubung`;
+                if (banner) banner.className = "bg-emerald-50 border border-emerald-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-emerald-900 transition-all";
+                if (icon) icon.className = "fa-solid fa-circle-check text-emerald-600 text-sm";
+                if (syncText) syncText.innerText = `${activeDatabase.length} Data Terhubung`;
             } else if (type === 'warning') {
-                banner.className = "bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-amber-900 transition-all";
-                icon.className = "fa-solid fa-triangle-exclamation text-amber-600 text-sm";
+                if (banner) banner.className = "bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-amber-900 transition-all";
+                if (icon) icon.className = "fa-solid fa-triangle-exclamation text-amber-600 text-sm";
+                if (syncText) syncText.innerText = `${activeDatabase.length} Data Offline`;
             } else {
-                banner.className = "bg-rose-50 border border-rose-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-rose-900 transition-all";
-                icon.className = "fa-solid fa-circle-xmark text-rose-600 text-sm";
+                if (banner) banner.className = "bg-rose-50 border border-rose-200/80 rounded-xl p-3.5 flex items-center justify-between text-xs text-rose-900 transition-all";
+                if (icon) icon.className = "fa-solid fa-circle-xmark text-rose-600 text-sm";
+                if (syncText) syncText.innerText = "Gagal Terhubung";
             }
         }
 
-        // Search handler (NIM atau NAMA)
         function handleSearch(e) {
             e.preventDefault();
             
@@ -410,12 +434,11 @@
                 return;
             }
 
-            // Cari berdasarkan NIM (persis/clean) atau Nama (mengandung teks)
+            // Pencarian berdasarkan NIM atau Nama
             const match = activeDatabase.find(student => {
                 const dbNim = String(student.nim || '').trim().toLowerCase();
                 const dbNama = String(student.nama || '').trim().toLowerCase();
 
-                // Bersihkan karakter non-digit untuk perbandingan NIM
                 const cleanQuery = query.replace(/\D/g, '');
                 const cleanDbNim = dbNim.replace(/\D/g, '');
 
@@ -446,7 +469,6 @@
             const statusBadgeBg = isLulus ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-rose-100 text-rose-800 border-rose-300';
             const iconBadge = isLulus ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600';
 
-            // Ubah URL di catatan menjadi tautan yang bisa diklik
             const rawCatatan = escapeHtml(data.catatan || (isLulus ? 'Berkas lengkap dan terverifikasi.' : 'Persyaratan belum lengkap.'));
             const formattedCatatan = rawCatatan.replace(
                 /(https?:\/\/[^\s]+)/g,
@@ -529,14 +551,14 @@
                     <div>
                         <h3 class="text-base sm:text-lg font-bold text-slate-800">Data Tidak Ditemukan</h3>
                         <p class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mt-1 leading-relaxed">
-                            Data dengan pencarian <span class="font-mono font-bold text-slate-800">"${escapeHtml(queryText)}"</span> tidak ditemukan pada database Gelombang 3 Tahun 2026.
+                            Pencarian dengan kata kunci <span class="font-mono font-bold text-slate-800">"${escapeHtml(queryText)}"</span> tidak ditemukan dalam basis data Gelombang 3 Tahun 2026.
                         </p>
                     </div>
                     <div class="bg-slate-50 border border-slate-200 p-3.5 sm:p-4 rounded-xl text-left text-xs text-slate-600 max-w-lg mx-auto space-y-1">
                         <p class="font-bold text-slate-700">Saran Tindakan:</p>
-                        <p>1. Periksa kembali penulisan Nomor Induk Mahasiswa (NIM) Anda.</p>
-                        <p>2. Pastikan Anda telah mendaftar pada Uji Kompetensi Gelombang 3.</p>
-                        <p>3. Apabila terdapat kekeliruan, silakan hubungi Sekretariat LSP-P1 UM.</p>
+                        <p>1. Periksa kembali penulisan Nomor Induk Mahasiswa (NIM) atau nama Anda.</p>
+                        <p>2. Pastikan Anda mendaftar pada UKOM Gelombang 3.</p>
+                        <p>3. Apabila terjadi kendala, hubungi Sekretariat LSP-P1 UM.</p>
                     </div>
                     <div class="pt-2">
                         <button onclick="resetSearch()" class="bg-um-navy text-white text-xs sm:text-sm font-medium py-2.5 px-6 rounded-xl hover:bg-um-blue transition">
@@ -553,7 +575,6 @@
             document.getElementById('searchInput').focus();
         }
 
-        // Modal & Admin UI Handlers
         function openAdminPortal() {
             toggleModal('adminModal', true);
             if (!isAdminLoggedIn) {
@@ -678,7 +699,7 @@
                 .replace(/'/g, "&#039;");
         }
 
-        // Inisialisasi otomatis saat dokumen dimuat
+        // Jalankan pengunduhan data saat pertama kali dimuat
         document.addEventListener("DOMContentLoaded", () => {
             muatDataGoogleSheets();
         });

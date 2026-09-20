@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Kelulusan Administrasi UKOM Gel. 3 2026 - LSP-P1 UM</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- SheetJS (xlsx) for handling Excel file uploads -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        um: {
+                            navy: '#0B1E36',
+                            blue: '#0F2C59',
+                            lightBlue: '#1D4ED8',
+                            gold: '#D97706',
+                            goldHover: '#B45309',
+                            bg: '#F8FAFC'
+                        }
+                    },
+                    screens: {
+                        'xs': '400px'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom styles for clean print output */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-card, #printable-card * {
+                visibility: visible;
+            }
+            #printable-card {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none !important;
+                border: 2px solid #0F2C59 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex flex-col justify-between selection:bg-amber-100 selection:text-amber-900 antialiased">
+
+    <!-- Header / Navigation Bar -->
+    <header class="bg-um-navy text-white border-b border-slate-700/50 sticky top-0 z-30 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+            <div class="flex items-center space-x-3 min-w-0">
+                <!-- UM Logo Icon Placeholder / Badge -->
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex-shrink-0 flex items-center justify-center font-black text-um-navy text-lg sm:text-xl shadow-lg ring-2 ring-amber-300/30">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="truncate">
+                    <h1 class="font-bold text-sm sm:text-base lg:text-lg tracking-tight leading-tight truncate">LSP-P1 Universitas Negeri Malang</h1>
+                    <p class="text-[11px] sm:text-xs text-slate-300 font-medium truncate">Lembaga Sertifikasi Profesi Pihak Kesatu</p>
+                </div>
+            </div>
+            
+            <!-- Lock / Admin Access Button -->
+            <div class="no-print flex-shrink-0">
+                <button onclick="openAdminPortal()" id="adminAccessBtn" title="Akses Portal Admin" class="bg-slate-800/70 hover:bg-slate-700/90 active:scale-95 text-slate-300 hover:text-white px-3 py-2 sm:px-3.5 sm:py-2 rounded-xl border border-slate-700/80 transition-all flex items-center space-x-2 text-xs">
+                    <i class="fa-solid fa-lock text-amber-400"></i>
+                    <span class="hidden md:inline font-medium">Akses Admin</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 flex-grow w-full space-y-6 sm:space-y-8">
+        
+        <!-- Hero Header -->
+        <div class="text-center space-y-2.5 max-w-2xl mx-auto px-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-200/80 shadow-sm">
+                <i class="fa-solid fa-bullhorn mr-1.5 text-amber-600"></i> Tahun Akademik 2026/2027
+            </span>
+            <h2 class="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-um-navy tracking-tight leading-tight">
+                Pengumuman Kelulusan Administrasi
+            </h2>
+            <p class="text-xs sm:text-sm md:text-base text-slate-600 font-normal leading-relaxed">
+                Uji Kompetensi (UKOM) Gelombang 3 Tahun 2026 — LSP-P1 Universitas Negeri Malang
+            </p>
+        </div>
+
+        <!-- Lookup Form Card -->
+        <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200/80 p-5 sm:p-8 transition-all">
+            <form id="searchForm" onsubmit="handleSearch(event)" class="space-y-4 sm:space-y-5">
+                
+                <!-- Input NIM -->
+                <div>
+                    <label for="nimInput" class="block text-xs sm:text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                        Nomor Induk Mahasiswa (NIM) <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative rounded-xl shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-id-card text-sm"></i>
+                        </div>
+                        <input type="text" id="nimInput" required placeholder="Contoh: 220531600001" autocomplete="off"
+                            class="w-full pl-10 pr-4 py-3 sm:py-3.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-um-blue focus:border-um-blue focus:bg-white text-slate-800 text-sm sm:text-base font-medium tracking-wide transition outline-none">
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mt-2 flex items-start sm:items-center">
+                        <i class="fa-solid fa-circle-info text-slate-400 mr-1.5 mt-0.5 sm:mt-0 flex-shrink-0"></i>
+                        <span>Pastikan Nomor Induk Mahasiswa (NIM) yang Anda masukkan tepat dan sesuai.</span>
+                    </p>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" id="submitBtn" class="w-full bg-um-navy hover:bg-um-blue active:scale-[0.99] text-white font-semibold py-3.5 sm:py-4 px-6 rounded-xl shadow-md shadow-um-navy/20 hover:shadow-lg transition duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base cursor-pointer">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>Cek Hasil Kelulusan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Dynamic Result Section -->
+        <div id="resultSection" class="hidden transition-all duration-300">
+            <!-- Dynamic Result Card rendered by JS -->
+        </div>
+
+    </main>
+
+    <!-- Admin & Excel Upload Modal -->
+    <div id="adminModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-um-navy text-white px-5 sm:px-6 py-4 flex items-center justify-between border-b border-slate-700">
+                <div class="flex items-center space-x-2.5">
+                    <i class="fa-solid fa-shield-halved text-amber-400 text-base sm:text-lg"></i>
+                    <h3 class="font-bold text-sm sm:text-base">Portal Admin LSP-P1 UM</h3>
+                </div>
+                <button onclick="toggleModal('adminModal', false)" class="text-slate-400 hover:text-white p-1 rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body: PIN Login View -->
+            <div id="adminAuthScreen" class="p-6 sm:p-8 text-center space-y-5">
+                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <div>
+                    <h4 class="text-base sm:text-lg font-bold text-slate-800">Verifikasi Hak Akses Admin</h4>
+                    <p class="text-xs text-slate-500 mt-1">Masukkan PIN untuk mengelola data peserta UKOM.</p>
+                </div>
+                <form onsubmit="verifyAdminPin(event)" class="max-w-xs mx-auto space-y-3">
+                    <input type="password" id="adminPinInput" placeholder="Masukkan PIN Admin" required 
+                        class="w-full text-center tracking-widest text-lg font-bold px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-um-blue focus:bg-white transition outline-none">
+                    <button type="submit" class="w-full bg-um-navy hover:bg-um-blue active:scale-[0.98] text-white text-xs sm:text-sm font-semibold py-3 rounded-xl shadow-md transition">
+                        Buka Akses Admin
+                    </button>
+                </form>
+                <p class="text-[11px] text-slate-400">
+                    <i class="fa-solid fa-circle-info mr-1"></i>PIN Default Demo: <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-slate-700 font-bold">2026</code>
+                </p>
+            </div>
+
+            <!-- Modal Body: Admin Content (Visible only after valid PIN) -->
+            <div id="adminPanelContent" class="p-5 sm:p-6 space-y-5 overflow-y-auto hidden">
+                
+                <!-- Upload Box -->
+                <div class="border-2 border-dashed border-slate-300 hover:border-um-blue rounded-xl p-5 sm:p-6 text-center bg-slate-50 transition cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
+                    <i class="fa-solid fa-cloud-arrow-up text-3xl sm:text-4xl text-slate-400 mb-2"></i>
+                    <h4 class="font-bold text-slate-700 text-xs sm:text-sm">Unggah File Excel (.xlsx / .xls / .csv)</h4>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mt-1">Klik di sini untuk memilih file data peserta dari HP atau Laptop</p>
+                    <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)">
+                </div>
+
+                <!-- Template Guidance -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 sm:p-4">
+                    <div class="flex flex-col xs:flex-row xs:items-center justify-between gap-2 mb-2">
+                        <span class="font-bold text-[11px] sm:text-xs uppercase text-slate-700">Format Kolom Excel:</span>
+                        <button onclick="downloadTemplate()" class="text-xs text-um-lightBlue font-semibold hover:underline text-left xs:text-right">
+                            <i class="fa-solid fa-download mr-1"></i>Unduh Template
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-[11px] font-mono bg-white p-2.5 rounded-lg border border-slate-200 text-slate-600">
+                        <div>1. <strong>NIM</strong></div>
+                        <div>2. <strong>NAMA</strong></div>
+                        <div>3. <strong>PRODI</strong></div>
+                        <div>4. <strong>SKEMA</strong></div>
+                        <div>5. <strong>STATUS</strong></div>
+                        <div>6. <strong>CATATAN</strong></div>
+                    </div>
+                </div>
+
+                <!-- Data Preview Count -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl text-emerald-900 text-xs font-medium gap-2">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-database text-emerald-600"></i>
+                        <span>Jumlah Data Active: <strong id="datasetCount" class="text-sm font-bold">0</strong> mahasiswa</span>
+                    </div>
+                    <button onclick="resetDefaultData()" class="text-emerald-700 hover:text-emerald-900 underline font-semibold text-xs">
+                        Reset Ke Demo
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 px-5 sm:px-6 py-3.5 border-t border-slate-200 flex justify-between items-center">
+                <button id="lockAdminBtn" onclick="lockAdminSession()" class="hidden text-rose-600 hover:text-rose-800 text-xs font-bold flex items-center space-x-1.5 transition">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Kunci Portal</span>
+                </button>
+                <button onclick="toggleModal('adminModal', false)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-xs sm:text-sm px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl transition ml-auto">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-6xl mx-auto px-4 space-y-1.5">
+            <p class="font-semibold text-slate-700">LSP-P1 Universitas Negeri Malang (UM)</p>
+            <p>Gedung B31 Lt. 1 UM, Jl. Semarang No. 5 Malang, Jawa Timur</p>
+            <p class="text-slate-400">© 2026 Universitas Negeri Malang. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // DATABASE PERMANEN / FIXED DATASET MAHASISWA UKOM GEL. 3 2026
+        // =========================================================================
+        const DATABASE_LSP_UM = [
+            {
+                nim: "220542704170",
+                nama: "SALISA MAHESWARI AZARIA",
+                prodi: "D4 Desain Mode",
+                skema: "Asisten Desainer Custom Made Wanita",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937604660",
+                nama: "INDRAYANI PUSPITASARI",
+                prodi: "D4 Desain Mode",
+                skema: "Asisten Desainer Custom Made Wanita",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253602078",
+                nama: "JUNIAR AYU FAZA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Seni dan Desain",
+                status: "TIDAK LULUS",
+                catatan: "SKEMA TIDAK SESUAI PRODI, SILAHKAN MENDAFTAR DI GELOMBANG BERIKUTNYA"
+            },
+            {
+                nim: "230252606659",
+                nama: "ANGGI PUTRI PRATIWI",
+                prodi: "S1 Pendidikan Seni Pertunjukan",
+                skema: "Seni dan Desain",
+                status: "TIDAK LULUS",
+                catatan: "SKEMA TIDAK SESUAI PRODI, SILAHKAN MENDAFTAR DI GELOMBANG BERIKUTNYA"
+            },
+            {
+                nim: "230121601742",
+                nama: "AZZAH FATIMATUZ ZAHROH",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Teknologi Pendidikan",
+                status: "TIDAK LULUS",
+                catatan: "SKEMA TIDAK SESUAI PRODI, SILAHKAN MENDAFTAR DI GELOMBANG BERIKUTNYA"
+            },
+            {
+                nim: "220542703817",
+                nama: "VIRA ANDINI BR PERANGIN-ANGIN",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542600793",
+                nama: "AISYAH NABILA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542600811",
+                nama: "AURA MEDY AISYAH",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542601008",
+                nama: "FEBRILIAN SUDRAJAT",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542601176",
+                nama: "ARFINA ZULFA AZZAHRA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542601232",
+                nama: "JUWITA HEVI PRASTIKA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542601569",
+                nama: "HELVICA MUDA TILOVA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542601722",
+                nama: "SYAMRINA PUTRI ENSARIYANI",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230542602324",
+                nama: "WANG SINLEY VIRIYA JECYNTA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937603568",
+                nama: "PRAMUDHITA SEKAR KINASIH",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937603610",
+                nama: "NAFIS ZULFATUL CHOIROH",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937604055",
+                nama: "ALYA ANNISA ZAHRO",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937604930",
+                nama: "AULIA SANDRIKA PUSPITASARI",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937605452",
+                nama: "LATHIFAH BRILLIANTI AZIZAH",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937605905",
+                nama: "AINI ADILA RUSYDIANA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937605962",
+                nama: "FARAH FADIYAH",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937606186",
+                nama: "NAJWA AULIA FAUZI",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937606468",
+                nama: "KEN AYU THIRZA AURIST MUVERTA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937606517",
+                nama: "NUR AFNI PUSPITASARI",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937606641",
+                nama: "AL FIANDINI",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937606672",
+                nama: "TAZKIATU FIRDA KHURIN'IN",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937606747",
+                nama: "RIZKA NUR AZIZA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937606762",
+                nama: "DWIKA DESY VERONIKA SITINJAK",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937607396",
+                nama: "AULIA NUR ARUMSARI",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937607418",
+                nama: "NINDIERA RIZHIA MULYAWAN",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937607970",
+                nama: "ZAHRA SYIFA AULIA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937608168",
+                nama: "MERIA ELINA NABABAN",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937608820",
+                nama: "NISAUL KAMILA",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937609068",
+                nama: "RISMA DAMAYANTI",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230937609449",
+                nama: "NUHA NADHIFAH",
+                prodi: "D4 Desain Mode",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "220544603067",
+                nama: "AHDA RAIHANI HAFSAH",
+                prodi: "S1 Pendidikan Tata Busana",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "220544611027",
+                nama: "AFINA ZAIDAH",
+                prodi: "S1 Pendidikan Tata Busana",
+                skema: "Desainer Busana Anak/Wanita/Pria",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "220253601154",
+                nama: "YUNIKA WARDHANI",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Junior",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "220253606051",
+                nama: "HANIFAH WAHYU HUSNIYAH",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Junior",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253607535",
+                nama: "SALMA NURAHMA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Junior",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253601644",
+                nama: "IDRIS AUNURRAHMAN",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253605769",
+                nama: "MOH. YUSRIL SAPUTRO YUDOYONO",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253606384",
+                nama: "AMATULLAH INASZAHIRAH SHAFA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253607243",
+                nama: "ADI TYA FIRMANSYAH",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253607556",
+                nama: "RIZKY SYAHRUL RAMADHAN",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253608032",
+                nama: "AISYAH HANIFAH",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253608459",
+                nama: "CANTIKA CANDRA KIRANA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230253609178",
+                nama: "VANIA THIRZA ELVARETTA SIYU",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "250253630480",
+                nama: "MUHAMMAD JA'FAR SODIK",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "250253644494",
+                nama: "JOFAN SAPUTRA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "250253630490",
+                nama: "NIQMATUL ROCHMA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "250253630497",
+                nama: "NAILA SUFA MA'SUMAH",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "250253644531",
+                nama: "MUHAMMAD RAFI HAFIZH ARROSYIID",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "250253630494",
+                nama: "IRSYADASSABILA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "250253630502",
+                nama: "AG. TRIEHATMA ARDARESTA",
+                prodi: "S1 Desain Komunikasi Visual",
+                skema: "Desainer Grafis Muda",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121600282",
+                nama: "LINTANG KAWURYAN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121600534",
+                nama: "DYTA SEPTIYA NURHASAN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121600614",
+                nama: "ULYA DIANA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121601648",
+                nama: "IKA MAULIDA NUR'IL 'IZZAH",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121601703",
+                nama: "NAQIA SOFWA MAILA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121602056",
+                nama: "ZAHRA ANIQOTUL MAZIYAH",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121603626",
+                nama: "DANISH MIRZA YUAN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121603933",
+                nama: "ARLINTANG SEKAR PHAMBAYUN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121603941",
+                nama: "TIARA AISYAH PUTRI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121603964",
+                nama: "DAVA FAYRANO MOREY WIDIAMA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604068",
+                nama: "ALIFAH HIMMATUL MUFIDAH",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604272",
+                nama: "TSURAYYA INAYATURRAHMAH",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604277",
+                nama: "DIVA MISGIANTI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604314",
+                nama: "KHANSA DHIYA RAMADHANIA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604429",
+                nama: "FITRIYA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604646",
+                nama: "RIMA NURIL LAILIA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604801",
+                nama: "DITA CITRA OKTAVIANA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121604841",
+                nama: "HAFIZH ATHALLAH YUFFI ANANDA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121605066",
+                nama: "RISMA SINTIA PUTRI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121605135",
+                nama: "RANIA YASMIN KHIYAROTUL HISAN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121605184",
+                nama: "ADELYA TRI PUSPASARI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121605217",
+                nama: "ZHARIFAH MAULIDINA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121605387",
+                nama: "HIKMA AMELIA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121605997",
+                nama: "DIAH MAWARNI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121606125",
+                nama: "NANDA ADDI WIJAYA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121606242",
+                nama: "LYDIANA AGUSTIN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121606358",
+                nama: "ZASKIA ADYA MEDINA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121606566",
+                nama: "VANIA MUHTADIAH IZZAH",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121607447",
+                nama: "FADILA FITRI KURNIA DEWI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121607627",
+                nama: "FAUZIA NAILA PUTRI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121608195",
+                nama: "M. YAFI KHOIRUL FATIKHIN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121608287",
+                nama: "DESTI PRAMESTIYANI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121608837",
+                nama: "IMELDA ROSIANA",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121609202",
+                nama: "ANNISA ALYA RISAIANI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121609343",
+                nama: "MUHAMMAD SULTONUL AZKAR",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121610039",
+                nama: "MOHAMMAD RIFKI DWI SETIAWAN",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121610427",
+                nama: "AHMAD ZAMZAMI",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230121610489",
+                nama: "AHMAD IQBAL FEBRIYANTO",
+                prodi: "S1 Teknologi Pendidikan",
+                skema: "Desainer Multimedia Madya (Intermediate Multimedia Designer)",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230151603636",
+                nama: "AMELIA DWI OKTAVIA",
+                prodi: "S1 Pendidikan Guru Sekolah Dasar",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "TIDAK LULUS",
+                catatan: "SKEMA TIDAK SESUAI PRODI, SILAHKAN MENDAFTAR DI GELOMBANG BERIKUTNYA"
+            },
+            {
+                nim: "230151606180",
+                nama: "NABILA WAHYU RAMADHAN",
+                prodi: "S1 Pendidikan Guru Sekolah Dasar",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "TIDAK LULUS",
+                catatan: "SKEMA TIDAK SESUAI PRODI, SILAHKAN MENDAFTAR DI GELOMBANG BERIKUTNYA"
+            },
+            {
+                nim: "230141600409",
+                nama: "AINUL HAFIZHAH",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141600535",
+                nama: "AURIEL CHOIRUN NISA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141600659",
+                nama: "SAKINAH MERSA ISLAMIAH TAQLILLOH",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141601302",
+                nama: "INTAN FEBRYANA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141601600",
+                nama: "NAILA INES DWI LUJENG SAFITRI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141601779",
+                nama: "SHAFIRA NASYWA RAMADHANI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141601850",
+                nama: "RAFLI DIMAS SAPUTRA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141601967",
+                nama: "SANDY ANGGA PRAYOGA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141602042",
+                nama: "M. ISLAHUDDIN",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141602088",
+                nama: "ANGGIE PUTRI DINANTI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141602326",
+                nama: "SULIS SETIAWATI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141603911",
+                nama: "REVA EKA MASROFAH",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141603929",
+                nama: "NAIFI KURNIA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604088",
+                nama: "SABRINA AWALIYA MUNTHOLIB",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604108",
+                nama: "ACTALIA SILFA RAMADHINI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604127",
+                nama: "EKA PUTRI RATNASARI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604151",
+                nama: "OKTAVIANA PUTRI ROMADHANINGRUM",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604350",
+                nama: "NABILLA MAZAYA PUTRI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604354",
+                nama: "ELEN SEFTI AZIZAH",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604476",
+                nama: "SILVIA QODRIN NADA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604816",
+                nama: "RENI ASTRID RAMADANIA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604932",
+                nama: "REGINA DIVA MEILINDA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141604939",
+                nama: "SARAH RUBBY ALIYAH",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605141",
+                nama: "SALSABILA MARITZA SILOWARDANI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605177",
+                nama: "ACHMAD MALIDA FAUZI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605270",
+                nama: "LUVINAHAYU NATAMI HAMZAH",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605361",
+                nama: "FAISAL ANWAR FIRMANSYAH",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605395",
+                nama: "ULUN NAJWA",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605640",
+                nama: "RETNO PAMUNGKAS",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605657",
+                nama: "NABILA SALSA FITHRI NOVIANI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605679",
+                nama: "FRIOGI SAJIDAH ZINEDINE NAHL",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605810",
+                nama: "RATRANTI LODRA SARI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605846",
+                nama: "KUNZIDA LAZAWARDI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605878",
+                nama: "AGNES FEBRIANTI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            },
+            {
+                nim: "230141605899",
+                nama: "NIA PUSPITA SARI",
+                prodi: "S1 Pendidikan Nonformal",
+                skema: "Fasilitator Pemberdayaan Masyarakat",
+                status: "LULUS",
+                catatan: "SELAMAT, SILAHKAN ANDA MELENGKAPI DATA MELALUI TAUTAN BERIKUT https://bit.um.ac.id/BioadataUkom3-2026"
+            }
+        ];
+
+        // Active dataset
+        let activeDatabase = [...DATABASE_LSP_UM];
+        let isAdminLoggedIn = false;
+        const ADMIN_PIN = "ukomgel3lsp";
+
+        // Open Admin Portal
+        function openAdminPortal() {
+            toggleModal('adminModal', true);
+            if (!isAdminLoggedIn) {
+                document.getElementById('adminAuthScreen').classList.remove('hidden');
+                document.getElementById('adminPanelContent').classList.add('hidden');
+                document.getElementById('lockAdminBtn').classList.add('hidden');
+                setTimeout(() => document.getElementById('adminPinInput')?.focus(), 150);
+            } else {
+                showAdminPanel();
+            }
+        }
+
+        // Verify Admin PIN
+        function verifyAdminPin(e) {
+            e.preventDefault();
+            const pinInput = document.getElementById('adminPinInput').value;
+            if (pinInput === ADMIN_PIN || pinInput === "admin2026") {
+                isAdminLoggedIn = true;
+                document.getElementById('adminPinInput').value = '';
+                showAdminPanel();
+                alertCustom("Akses Admin Berhasil!", "success");
+            } else {
+                alertCustom("PIN Admin Salah. Akses Ditolak!", "error");
+                document.getElementById('adminPinInput').value = '';
+                document.getElementById('adminPinInput').focus();
+            }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('adminAuthScreen').classList.add('hidden');
+            document.getElementById('adminPanelContent').classList.remove('hidden');
+            document.getElementById('lockAdminBtn').classList.remove('hidden');
+        }
+
+        function lockAdminSession() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminAuthScreen').classList.remove('hidden');
+            document.getElementById('adminPanelContent').classList.add('hidden');
+            document.getElementById('lockAdminBtn').classList.add('hidden');
+            alertCustom("Portal Admin terkunci.", "info");
+        }
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            updateDataCount();
+        });
+
+        function updateDataCount() {
+            document.getElementById('datasetCount').innerText = activeDatabase.length;
+        }
+
+        // Modal helper
+        function toggleModal(modalId, show) {
+            const modal = document.getElementById(modalId);
+            if (show) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function handleSearch(e) {
+            e.preventDefault();
+            
+            const nimInput = document.getElementById('nimInput').value.trim().toLowerCase();
+            const resultSection = document.getElementById('resultSection');
+
+            // Search algorithm (Exact NIM match)
+            const match = activeDatabase.find(student => {
+                const dbNim = String(student.nim).trim().toLowerCase();
+                return dbNim === nimInput;
+            });
+
+            resultSection.classList.remove('hidden');
+            
+            if (match) {
+                renderSuccessCard(match);
+            } else {
+                renderNotFoundCard(nimInput);
+            }
+
+            // Smooth scroll to result
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderSuccessCard(data) {
+            const resultSection = document.getElementById('resultSection');
+            const isLulus = data.status.toUpperCase() === 'LULUS';
+
+            const statusBg = isLulus ? 'bg-emerald-500' : 'bg-rose-500';
+            const statusBadgeBg = isLulus ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-rose-100 text-rose-800 border-rose-300';
+            const iconBadge = isLulus ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600';
+
+            // Convert raw URLs in notes into clickable links
+            const rawCatatan = escapeHtml(data.catatan || 'Tidak ada catatan.');
+            const formattedCatatan = rawCatatan.replace(
+                /(https?:\/\/[^\s]+)/g,
+                '<a href="$1" target="_blank" rel="noopener noreferrer" class="font-bold underline text-blue-700 hover:text-blue-900 break-all inline-flex items-center space-x-1 ml-1"><i class="fa-solid fa-arrow-up-right-from-square text-xs mr-0.5"></i><span>$1</span></a>'
+            );
+
+            resultSection.innerHTML = `
+                <div id="printable-card" class="bg-white rounded-2xl shadow-xl border border-slate-200/90 overflow-hidden transition-all">
+                    <!-- Top Status Bar -->
+                    <div class="h-3 ${statusBg}"></div>
+
+                    <div class="p-5 sm:p-8 space-y-6">
+                        <!-- Header Status -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                            <div>
+                                <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold border ${statusBadgeBg} mb-2">
+                                    <i class="fa-solid ${iconBadge}"></i>
+                                    <span>STATUS: ${escapeHtml(data.status.toUpperCase())}</span>
+                                </div>
+                                <h3 class="text-lg sm:text-2xl font-black text-um-navy tracking-tight">
+                                    ${isLulus ? 'HASIL: LULUS ADMINISTRASI' : 'HASIL: BELUM LULUS ADMINISTRASI'}
+                                </h3>
+                                <p class="text-xs text-slate-500 mt-0.5">
+                                    UKOM Gel. 3 LSP-P1 Universitas Negeri Malang Tahun 2026
+                                </p>
+                            </div>
+                            <!-- Verification Badge -->
+                            <div class="text-left sm:text-right border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
+                                <span class="text-[10px] text-slate-400 font-mono block">ID Verifikasi: UM-UKOM2026-${Math.floor(1000 + Math.random() * 9000)}</span>
+                                <div class="text-xs font-bold text-slate-500 mt-0.5">LSP-P1 UM</div>
+                            </div>
+                        </div>
+
+                        <!-- Student Information Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 text-xs sm:text-sm bg-slate-50/80 p-4 sm:p-5 rounded-xl border border-slate-200/80">
+                            <div>
+                                <span class="block text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider">Nama Lengkap</span>
+                                <span class="font-bold text-slate-800 text-sm sm:text-base">${escapeHtml(data.nama)}</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider">NIM Mahasiswa</span>
+                                <span class="font-bold text-slate-800 text-sm sm:text-base font-mono">${escapeHtml(String(data.nim))}</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider">Program Studi</span>
+                                <span class="font-medium text-slate-700">${escapeHtml(data.prodi || '-')}</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider">Skema Sertifikasi</span>
+                                <span class="font-semibold text-um-blue">${escapeHtml(data.skema || '-')}</span>
+                            </div>
+                        </div>
+
+                        <!-- Verifier Notes -->
+                        <div class="space-y-1.5">
+                            <label class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-600">Catatan Tim Verifikator:</label>
+                            <div class="p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm font-medium leading-relaxed ${isLulus ? 'bg-emerald-50 text-emerald-900 border border-emerald-200' : 'bg-rose-50 text-rose-900 border border-rose-200'}">
+                                <i class="fa-solid ${isLulus ? 'fa-square-check text-emerald-600' : 'fa-circle-exclamation text-rose-600'} mr-1.5"></i>
+                                ${formattedCatatan}
+                            </div>
+                        </div>
+
+                        <!-- Responsive Action Buttons -->
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-100 no-print">
+                           
+                            <button onclick="resetSearch()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold py-3 px-5 rounded-xl transition flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <span>Cari Mahasiswa Lain</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Not Found State
+        function renderNotFoundCard(nim) {
+            const resultSection = document.getElementById('resultSection');
+            resultSection.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-5 sm:p-8 text-center space-y-4">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl sm:text-2xl">
+                        <i class="fa-solid fa-user-slash"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800">Data Tidak Ditemukan</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mt-1 leading-relaxed">
+                            Mahasiswa dengan NIM <span class="font-mono font-bold text-slate-800">${escapeHtml(nim)}</span> tidak ditemukan pada Gelombang 3 Tahun 2026.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-3.5 sm:p-4 rounded-xl text-left text-xs text-slate-600 max-w-lg mx-auto space-y-1">
+                        <p class="font-bold text-slate-700">Saran Tindakan:</p>
+                        <p>1. Periksa kembali penulisan NIM Anda.</p>
+                        <p>2. Pastikan Anda mendaftar pada UKOM Gelombang 3.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="resetSearch()" class="bg-um-navy text-white text-xs sm:text-sm font-medium py-2.5 px-6 rounded-xl hover:bg-um-blue transition">
+                            Coba Kembali
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetSearch() {
+            document.getElementById('nimInput').value = '';
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('nimInput').focus();
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const rawJson = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+                    if (rawJson.length === 0) {
+                        alertCustom("File Excel kosong atau tidak terisi.", "error");
+                        return;
+                    }
+
+                    // Map keys dynamically
+                    const processedData = rawJson.map(row => {
+                        const getKey = (name) => Object.keys(row).find(k => k.trim().toLowerCase() === name.toLowerCase());
+
+                        const nimKey = getKey('nim');
+                        const namaKey = getKey('nama');
+                        const prodiKey = getKey('prodi');
+                        const skemaKey = getKey('skema');
+                        const statusKey = getKey('status');
+                        const catatanKey = getKey('catatan');
+
+                        return {
+                            nim: String(row[nimKey] || '').trim(),
+                            nama: String(row[namaKey] || '').trim(),
+                            prodi: String(row[prodiKey] || '').trim(),
+                            skema: String(row[skemaKey] || '').trim(),
+                            status: String(row[statusKey] || 'LULUS').trim(),
+                            catatan: String(row[catatanKey] || 'Berkas lengkap & valid.').trim()
+                        };
+                    }).filter(item => item.nim && item.nama);
+
+                    if (processedData.length === 0) {
+                        alertCustom("Format Excel tidak valid! Periksa nama kolom header.", "error");
+                        return;
+                    }
+
+                    activeDatabase = processedData;
+                    updateDataCount();
+                    alertCustom(`Berhasil memuat ${processedData.length} data mahasiswa!`, 'success');
+                    toggleModal('adminModal', false);
+
+                } catch (error) {
+                    console.error(error);
+                    alertCustom("Gagal memproses file Excel.", "error");
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function resetDefaultData() {
+            activeDatabase = [...DATABASE_LSP_UM];
+            updateDataCount();
+            alertCustom("Database dikembalikan ke data permanen bawaan.", "info");
+        }
+
+        function downloadTemplate() {
+            const templateData = [
+                { NIM: "220531600099", NAMA: "Ahmad Mahasiswa", PRODI: "S1 Teknik Informatika", SKEMA: "Web Developer", STATUS: "LULUS", CATATAN: "Berkas Lengkap & Valid" },
+                { NIM: "220531600100", NAMA: "Siti Peserta", PRODI: "S1 Manajemen", SKEMA: "Digital Marketing", STATUS: "TIDAK LULUS", CATATAN: "Ijazah/Transkrip belum terupload" }
+            ];
+            
+            const ws = XLSX.utils.json_to_sheet(templateData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Pengumuman_UKOM");
+            XLSX.writeFile(wb, "Template_Pengumuman_UKOM_Gel3_UM.xlsx");
+        }
+
+        function alertCustom(message, type = 'error') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-5 right-5 z-50 text-white text-xs sm:text-sm font-medium px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 transition-all transform duration-300 ${
+                type === 'success' ? 'bg-emerald-600' : type === 'info' ? 'bg-slate-800' : 'bg-rose-600'
+            }`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i> <span>${escapeHtml(message)}</span>`;
+            
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

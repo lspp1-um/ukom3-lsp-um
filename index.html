@@ -470,9 +470,15 @@
             const iconBadge = isLulus ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600';
 
             const rawCatatan = escapeHtml(data.catatan || (isLulus ? 'Berkas lengkap dan terverifikasi.' : 'Persyaratan belum lengkap.'));
-            const formattedCatatan = rawCatatan.replace(
+            let formattedCatatan = rawCatatan.replace(
                 /(https?:\/\/[^\s]+)/g,
                 '<a href="$1" target="_blank" rel="noopener noreferrer" class="font-bold underline text-blue-700 hover:text-blue-900 break-all inline-flex items-center space-x-1 ml-1"><i class="fa-solid fa-arrow-up-right-from-square text-xs mr-0.5"></i><span>$1</span></a>'
+            );
+
+            // Format kata KECURANGAN agar tercetak tebal dan disorot
+            formattedCatatan = formattedCatatan.replace(
+                /(kecurangan)/gi,
+                '<strong class="font-black text-rose-700 uppercase underline decoration-2 underline-offset-2">$1</strong>'
             );
 
             resultSection.innerHTML = `

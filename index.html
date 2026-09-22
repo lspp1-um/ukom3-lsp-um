@@ -14,10 +14,10 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- PapaParse CDN for robust CSV handling -->
+    <!-- PapaParse CDN for CSV handling -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-    <!-- SheetJS (xlsx) for manual Excel fallback -->
+    <!-- SheetJS (xlsx) for Excel fallback -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <script>
@@ -88,7 +88,7 @@
             </div>
             
             <div class="no-print flex items-center space-x-2">
-                <!-- Home Button (shown when in sub-pages) -->
+                <!-- Home Button -->
                 <button id="navHomeBtn" onclick="navigateTo('home')" class="hidden bg-slate-800/80 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-xl border border-slate-700 transition flex items-center space-x-1.5 text-xs font-medium">
                     <i class="fa-solid fa-house text-amber-400"></i>
                     <span class="hidden sm:inline">Menu Utama</span>
@@ -122,11 +122,10 @@
                     Pusat Informasi & Layanan Peserta UKOM
                 </h2>
                 <p class="text-xs sm:text-sm md:text-base text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-                    Silakan pilih jenis informasi layanan yang ingin Anda akses di bawah ini.
+                    Silakan pilih jenis informasi layanan yang ingin Anda akses di bawah ini. Pencarian wajib menggunakan Nomor Induk Mahasiswa (NIM).
                 </p>
             </div>
 
-            <!-- 2 Main Service Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto pt-2">
                 
                 <!-- CARD 1: CEK KELULUSAN ADMINISTRASI -->
@@ -143,13 +142,13 @@
                                 Cek Kelulusan Administrasi
                             </h3>
                             <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-                                Cek status kelulusan verifikasi berkas pendaftaran UKOM Anda berdasarkan NIM.
+                                Cek status kelulusan verifikasi berkas pendaftaran UKOM Anda berdasarkan NIM Mahasiswa.
                             </p>
                         </div>
                     </div>
 
                     <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-um-blue group-hover:text-um-lightBlue">
-                        <span>Akses Hasil Kelulusan</span>
+                        <span>Akses Cek NIM Kelulusan</span>
                         <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
                     </div>
                 </div>
@@ -168,13 +167,13 @@
                                 Cek Plotting Asesor & Grup WA
                             </h3>
                             <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-                                Cari pembagian Asesor Penguji Anda dan dapatkan link langsung bergabung ke Grup WhatsApp peserta.
+                                Cari pembagian Asesor Penguji menggunakan NIM Anda dan dapatkan tautan Grup WhatsApp.
                             </p>
                         </div>
                     </div>
 
                     <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-emerald-600 group-hover:text-emerald-700">
-                        <span>Akses Plotting & Link WA</span>
+                        <span>Akses Cek NIM Plotting</span>
                         <i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
                     </div>
                 </div>
@@ -182,7 +181,6 @@
             </div>
         </div>
 
-        <!-- VIEW 2: CEK KELULUSAN ADMINISTRASI -->
         <div id="viewKelulusan" class="hidden space-y-6 max-w-3xl mx-auto">
             <div class="flex items-center space-x-3 mb-2">
                 <button onclick="navigateTo('home')" class="p-2 rounded-xl bg-slate-200/80 hover:bg-slate-300 text-slate-700 transition">
@@ -190,7 +188,7 @@
                 </button>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-bold text-um-navy">Pengecekan Kelulusan Administrasi</h2>
-                    <p class="text-xs text-slate-500">Hasil verifikasi berkas pendaftaran UKOM Gelombang 3</p>
+                    <p class="text-xs text-slate-500">Pengecekan berbasis NIM Mahasiswa untuk Gelombang 3</p>
                 </div>
             </div>
 
@@ -208,19 +206,20 @@
                 <form onsubmit="handleSearchKelulusan(event)" class="space-y-4">
                     <div>
                         <label for="inputKelulusan" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                            Masukkan NIM  <span class="text-rose-500">*</span>
+                            Masukkan NIM Mahasiswa <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                                <i class="fa-solid fa-id-card text-sm"></i>
                             </div>
-                            <input type="text" id="inputKelulusan" required placeholder="Contoh: 220531600001 " autocomplete="off"
+                            <input type="text" id="inputKelulusan" required placeholder="Contoh: 220531600001" autocomplete="off"
                                 class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-um-blue focus:bg-white text-slate-800 text-sm font-medium outline-none">
                         </div>
+                        <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-um-blue"></i> Pencarian hanya dapat dilakukan dengan mengisikan <strong>NIM (Nomor Induk Mahasiswa)</strong>.</p>
                     </div>
                     <button type="submit" class="w-full bg-um-navy hover:bg-um-blue text-white font-semibold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2 text-sm">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Cek Hasil Kelulusan Administrasi</span>
+                        <span>Cek Hasil Kelulusan dengan NIM</span>
                     </button>
                 </form>
             </div>
@@ -229,7 +228,6 @@
             <div id="resultKelulusan" class="hidden transition-all duration-300"></div>
         </div>
 
-        <!-- VIEW 3: CEK PLOTTING ASESOR -->
         <div id="viewPlotting" class="hidden space-y-6 max-w-3xl mx-auto">
             <div class="flex items-center space-x-3 mb-2">
                 <button onclick="navigateTo('home')" class="p-2 rounded-xl bg-slate-200/80 hover:bg-slate-300 text-slate-700 transition">
@@ -237,7 +235,7 @@
                 </button>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-bold text-um-navy">Pengecekan Plotting Asesor & Link WA</h2>
-                    <p class="text-xs text-slate-500">Cari pembagian Asesor Penguji & Tautan Grup WhatsApp Resmi</p>
+                    <p class="text-xs text-slate-500">Pengecekan berbasis NIM Mahasiswa untuk Asesor & Grup WhatsApp</p>
                 </div>
             </div>
 
@@ -255,20 +253,20 @@
                 <form onsubmit="handleSearchPlotting(event)" class="space-y-4">
                     <div>
                         <label for="inputPlotting" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                            Masukkan NIM Anda <span class="text-rose-500">*</span>
+                            Masukkan NIM Mahasiswa <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-id-card text-sm"></i>
                             </div>
-                            <input type="text" id="inputPlotting" required placeholder="Contoh NIM " autocomplete="off"
+                            <input type="text" id="inputPlotting" required placeholder="Contoh: 220531600001" autocomplete="off"
                                 class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-600 focus:bg-white text-slate-800 text-sm font-medium outline-none">
                         </div>
-                        <p class="text-[11px] text-slate-500 mt-2">Pencarian dapat menggunakan Nomor Induk Mahasiswa (NIM).</p>
+                        <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-emerald-600"></i> Pastikan mengisikan <strong>NIM (Nomor Induk Mahasiswa)</strong> secara tepat.</p>
                     </div>
                     <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2 text-sm">
                         <i class="fa-solid fa-user-check"></i>
-                        <span>Cek Plotting Asesor & Link WA</span>
+                        <span>Cek Plotting Asesor dengan NIM</span>
                     </button>
                 </form>
             </div>
@@ -279,7 +277,6 @@
 
     </main>
 
-    <!-- Modal Admin -->
     <div id="adminModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
         <div class="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
             <!-- Modal Header -->
@@ -370,7 +367,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
         <div class="max-w-6xl mx-auto px-4 space-y-1.5">
             <p class="font-semibold text-slate-700">LSP-P1 Universitas Negeri Malang (UM)</p>
@@ -412,7 +408,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Generic Google Sheets Fetcher helper
         async function fetchCSVData(sheetUrl) {
             if (!sheetUrl) return null;
             const urlsToTry = [
@@ -439,18 +434,18 @@
          * 1. KELULUSAN ADMINISTRASI MODULE
          * ------------------------------------------------------------- */
         async function muatDataKelulusan(isManual = false) {
-            updateBanner('bannerKelulusan', 'msgKelulusan', 'loading', 'Mengunduh data Kelulusan...');
+            updateBanner('statusBannerKelulusan', 'msgKelulusan', 'loading', 'Mengunduh data Kelulusan...');
 
             const csvText = await fetchCSVData(URL_KELULUSAN);
             if (!csvText) {
                 const cached = localStorage.getItem('cache_kelulusan');
                 if (cached) {
                     dbKelulusan = JSON.parse(cached);
-                    updateBanner('bannerKelulusan', 'msgKelulusan', 'warning', `Mode Offline (${dbKelulusan.length} data tersimpan)`);
+                    updateBanner('statusBannerKelulusan', 'msgKelulusan', 'warning', `Mode Offline (${dbKelulusan.length} data tersimpan)`);
                     updateCounts();
                     return;
                 }
-                updateBanner('bannerKelulusan', 'msgKelulusan', 'error', 'Gagal memuat data kelulusan.');
+                updateBanner('statusBannerKelulusan', 'msgKelulusan', 'error', 'Gagal memuat data kelulusan.');
                 return;
             }
 
@@ -496,13 +491,13 @@
 
                         dbKelulusan = processed;
                         localStorage.setItem('cache_kelulusan', JSON.stringify(dbKelulusan));
-                        updateBanner('bannerKelulusan', 'msgKelulusan', 'success', `Terhubung (${dbKelulusan.length} data kelulusan)`);
+                        updateBanner('statusBannerKelulusan', 'msgKelulusan', 'success', `Terhubung (${dbKelulusan.length} data kelulusan)`);
                         updateCounts();
 
                         if (isManual) alertCustom(`Berhasil memuat ${dbKelulusan.length} data Kelulusan!`, 'success');
 
                     } catch (e) {
-                        updateBanner('bannerKelulusan', 'msgKelulusan', 'error', 'Format file Kelulusan tidak sesuai.');
+                        updateBanner('statusBannerKelulusan', 'msgKelulusan', 'error', 'Format file Kelulusan tidak sesuai.');
                     }
                 }
             });
@@ -510,14 +505,15 @@
 
         function handleSearchKelulusan(e) {
             e.preventDefault();
-            const q = document.getElementById('inputKelulusan').value.trim().toLowerCase();
+            const inputVal = document.getElementById('inputKelulusan').value.trim();
+            const cleanNim = inputVal.replace(/\s+/g, '').toLowerCase();
             const resEl = document.getElementById('resultKelulusan');
-            if (!q) return;
+            if (!cleanNim) return;
 
+            // Strict NIM-only matching logic
             const match = dbKelulusan.find(st => {
-                const nim = String(st.nim || '').toLowerCase();
-                const nama = String(st.nama || '').toLowerCase();
-                return nim === q || nama.includes(q);
+                const stNim = String(st.nim || '').replace(/\s+/g, '').toLowerCase();
+                return stNim === cleanNim;
             });
 
             resEl.classList.remove('hidden');
@@ -528,59 +524,59 @@
                     <div id="printable-card" class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden space-y-5 p-6">
                         <div class="flex justify-between items-center border-b pb-4">
                             <div>
-                                <span class="px-3 py-1 rounded-full text-xs font-bold ${isLulus ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold ${isLulus ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'}">
                                     STATUS: ${escapeHtml(match.status.toUpperCase())}
                                 </span>
                                 <h3 class="text-xl font-bold text-um-navy mt-2">${isLulus ? 'HASIL: LULUS ADMINISTRASI' : 'BELUM LULUS ADMINISTRASI'}</h3>
                             </div>
                             <span class="text-xs text-slate-400 font-mono">LSP-P1 UM</span>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm bg-slate-50 p-4 rounded-xl">
-                            <div><span class="text-slate-400 block">Nama Lengkap</span><strong>${escapeHtml(match.nama)}</strong></div>
-                            <div><span class="text-slate-400 block">NIM Mahasiswa</span><strong class="font-mono">${escapeHtml(match.nim)}</strong></div>
-                            <div><span class="text-slate-400 block">Program Studi</span><span>${escapeHtml(match.prodi)}</span></div>
-                            <div><span class="text-slate-400 block">Skema Sertifikasi</span><span class="text-um-blue font-semibold">${escapeHtml(match.skema)}</span></div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                            <div><span class="text-slate-400 block text-[11px] font-bold uppercase">NIM Mahasiswa</span><strong class="font-mono text-base text-slate-800">${escapeHtml(match.nim)}</strong></div>
+                            <div><span class="text-slate-400 block text-[11px] font-bold uppercase">Nama Mahasiswa</span><strong class="text-slate-800">${escapeHtml(match.nama)}</strong></div>
+                            <div><span class="text-slate-400 block text-[11px] font-bold uppercase">Program Studi</span><span>${escapeHtml(match.prodi)}</span></div>
+                            <div><span class="text-slate-400 block text-[11px] font-bold uppercase">Skema Sertifikasi</span><span class="text-um-blue font-semibold">${escapeHtml(match.skema)}</span></div>
                         </div>
-                        <div class="p-4 rounded-xl text-xs sm:text-sm ${isLulus ? 'bg-emerald-50 text-emerald-900' : 'bg-rose-50 text-rose-900'}">
+                        <div class="p-4 rounded-xl text-xs sm:text-sm ${isLulus ? 'bg-emerald-50 text-emerald-900 border border-emerald-200' : 'bg-rose-50 text-rose-900 border border-rose-200'}">
                             <strong>Catatan Verifikator:</strong><p class="mt-1">${escapeHtml(match.catatan)}</p>
                         </div>
                         <div class="flex gap-2 no-print">
-                            <button onclick="window.print()" class="bg-um-navy text-white text-xs px-4 py-2.5 rounded-xl font-bold hover:bg-um-blue"><i class="fa-solid fa-print mr-1"></i> Cetak Bukti</button>
+                            <button onclick="window.print()" class="bg-um-navy text-white text-xs px-4 py-2.5 rounded-xl font-bold hover:bg-um-blue transition flex items-center"><i class="fa-solid fa-print mr-1.5"></i> Cetak Bukti</button>
                         </div>
                     </div>
                 `;
             } else {
                 resEl.innerHTML = `
                     <div class="bg-white rounded-2xl p-6 text-center shadow border border-slate-200 space-y-3">
-                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-user-slash"></i></div>
-                        <h4 class="font-bold text-slate-800">Data Kelulusan Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500">Pencarian "${escapeHtml(q)}" tidak ditemukan dalam basis data Kelulusan Gelombang 3.</p>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-id-card-clip"></i></div>
+                        <h4 class="font-bold text-slate-800">NIM Tidak Ditemukan</h4>
+                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(inputVal)}</span>" tidak terdaftar pada basis data Kelulusan Administrasi Gelombang 3.</p>
                     </div>
                 `;
             }
         }
 
         /* -------------------------------------------------------------
-         * 2. PLOTTING ASESOR & LINK WA MODULE
+         * 2. PLOTTING ASESOR & LINK WA MODULE (WITH SPECIAL CONDITIONS)
          * ------------------------------------------------------------- */
         async function muatDataPlotting(isManual = false) {
             if (!URL_PLOTTING) {
-                updateBanner('bannerPlotting', 'msgPlotting', 'warning', 'Belum ada URL Spreadsheet Plotting Asesor.');
+                updateBanner('statusBannerPlotting', 'msgPlotting', 'warning', 'Belum ada URL Spreadsheet Plotting Asesor.');
                 return;
             }
 
-            updateBanner('bannerPlotting', 'msgPlotting', 'loading', 'Mengunduh data Plotting Asesor...');
+            updateBanner('statusBannerPlotting', 'msgPlotting', 'loading', 'Mengunduh data Plotting Asesor...');
 
             const csvText = await fetchCSVData(URL_PLOTTING);
             if (!csvText) {
                 const cached = localStorage.getItem('cache_plotting');
                 if (cached) {
                     dbPlotting = JSON.parse(cached);
-                    updateBanner('bannerPlotting', 'msgPlotting', 'warning', `Mode Offline (${dbPlotting.length} data tersimpan)`);
+                    updateBanner('statusBannerPlotting', 'msgPlotting', 'warning', `Mode Offline (${dbPlotting.length} data tersimpan)`);
                     updateCounts();
                     return;
                 }
-                updateBanner('bannerPlotting', 'msgPlotting', 'error', 'Gagal memuat data Plotting.');
+                updateBanner('statusBannerPlotting', 'msgPlotting', 'error', 'Gagal memuat data Plotting.');
                 return;
             }
 
@@ -601,133 +597,244 @@
                         const headers = rows[headerIdx].map(h => String(h).trim().toLowerCase());
                         const findCol = (kw) => headers.findIndex(h => kw.some(k => h.includes(k)));
 
-                        const idIdx = findCol(['nim', 'nik', 'no. induk', 'nomor induk', 'id']);
+                        const nimIdx = findCol(['nim', 'no. induk', 'nomor induk', 'id']);
                         const namaIdx = findCol(['nama', 'mahasiswa', 'peserta']);
                         const prodiIdx = findCol(['prodi', 'program studi', 'jurusan']);
                         const skemaIdx = findCol(['skema', 'sertifikasi']);
                         const asesorIdx = findCol(['asesor', 'penguji', 'nama asesor']);
                         const waIdx = findCol(['wa', 'whatsapp', 'grup', 'link', 'group']);
+                        const statusIdx = findCol(['status', 'keterangan', 'catatan', 'alasan']);
 
                         const processed = [];
                         for (let i = headerIdx + 1; i < rows.length; i++) {
                             const row = rows[i];
                             if (!row || row.length === 0) continue;
 
-                            const idVal = idIdx !== -1 ? String(row[idIdx] || '').trim() : String(row[0] || '').trim();
+                            const nimVal = nimIdx !== -1 ? String(row[nimIdx] || '').trim() : String(row[0] || '').trim();
                             const namaVal = namaIdx !== -1 ? String(row[namaIdx] || '').trim() : String(row[1] || '').trim();
 
-                            if (!idVal && !namaVal) continue;
+                            if (!nimVal && !namaVal) continue;
 
                             processed.push({
-                                id: idVal,
+                                nim: nimVal,
                                 nama: namaVal,
                                 prodi: prodiIdx !== -1 ? String(row[prodiIdx] || '').trim() : '-',
                                 skema: skemaIdx !== -1 ? String(row[skemaIdx] || '').trim() : '-',
                                 asesor: asesorIdx !== -1 ? String(row[asesorIdx] || '').trim() : 'Dalam Plotting',
-                                linkWa: waIdx !== -1 ? String(row[waIdx] || '').trim() : '#'
+                                linkWa: waIdx !== -1 ? String(row[waIdx] || '').trim() : '#',
+                                statusText: statusIdx !== -1 ? String(row[statusIdx] || '').trim() : ''
                             });
                         }
 
                         dbPlotting = processed;
                         localStorage.setItem('cache_plotting', JSON.stringify(dbPlotting));
-                        updateBanner('bannerPlotting', 'msgPlotting', 'success', `Terhubung (${dbPlotting.length} data plotting)`);
+                        updateBanner('statusBannerPlotting', 'msgPlotting', 'success', `Terhubung (${dbPlotting.length} data plotting)`);
                         updateCounts();
 
                         if (isManual) alertCustom(`Berhasil memuat ${dbPlotting.length} data Plotting Asesor!`, 'success');
 
                     } catch (e) {
-                        updateBanner('bannerPlotting', 'msgPlotting', 'error', 'Format file Plotting tidak sesuai.');
+                        updateBanner('statusBannerPlotting', 'msgPlotting', 'error', 'Format file Plotting tidak sesuai.');
                     }
                 }
             });
         }
 
+        function evaluateSpecialCondition(item) {
+            // Concatenate relevant fields for thorough condition testing
+            const combined = `${item.statusText || ''} ${item.asesor || ''} ${item.linkWa || ''} ${item.prodi || ''}`.toUpperCase();
+
+            // Condition 1: PRODI TIDAK SESUAI SKEMA
+            if (combined.includes("PRODI TIDAK SESUAI SKEMA") || combined.includes("SKEMA TIDAK SESUAI PRODI")) {
+                return {
+                    isSpecial: true,
+                    type: 'prodi_skema_invalid',
+                    badgeLabel: 'PRODI TIDAK SESUAI SKEMA',
+                    title: 'Prodi Tidak Sesuai Skema',
+                    description: 'Mohon maaf, prodi Anda dinyatakan tidak sesuai dengan skema sertifikasi yang dipilih pada gelombang ini.',
+                    cardBgClass: 'bg-rose-50 border-rose-300 text-rose-950',
+                    badgeClass: 'bg-rose-100 text-rose-800 border-rose-300',
+                    bannerHeaderBg: 'bg-rose-600 text-white',
+                    iconClass: 'fa-solid fa-triangle-exclamation text-rose-600'
+                };
+            }
+
+            // Condition 2: Maaf anda sudah pernah mengikuti gelombang sebelumnya
+            if (combined.includes("SUDAH PERNAH MENGIKUTI GELOMBANG SEBELUMNYA") || combined.includes("PERNAH MENGIKUTI GELOMBANG")) {
+                return {
+                    isSpecial: true,
+                    type: 'already_joined_before',
+                    badgeLabel: 'SUDAH PERNAH MENGIKUTI GELOMBANG SEBELUMNYA',
+                    title: 'Pernah Mengikuti Gelombang Sebelumnya',
+                    description: 'Maaf, Anda sudah pernah mengikuti gelombang sebelumnya pada skema sertifikasi ini.',
+                    cardBgClass: 'bg-amber-50 border-amber-300 text-amber-950',
+                    badgeClass: 'bg-amber-100 text-amber-900 border-amber-300',
+                    bannerHeaderBg: 'bg-amber-600 text-white',
+                    iconClass: 'fa-solid fa-clock-rotate-left text-amber-600'
+                };
+            }
+
+            // Condition 3: Mohon maaf, setelah dilakukan pengecekan prodi anda dinyatakan tidak sesuai
+            if (combined.includes("PRODI ANDA DINYATAKAN TIDAK SESUAI") || combined.includes("DINYATAKAN TIDAK SESUAI")) {
+                return {
+                    isSpecial: true,
+                    type: 'prodi_declared_mismatch',
+                    badgeLabel: 'PRODI DINYATAKAN TIDAK SESUAI',
+                    title: 'Pengecekan Prodi Tidak Sesuai',
+                    description: 'Mohon maaf, setelah dilakukan pengecekan mendalam, prodi Anda dinyatakan tidak sesuai.',
+                    cardBgClass: 'bg-orange-50 border-orange-300 text-orange-950',
+                    badgeClass: 'bg-orange-100 text-orange-900 border-orange-300',
+                    bannerHeaderBg: 'bg-orange-600 text-white',
+                    iconClass: 'fa-solid fa-circle-xmark text-orange-600'
+                };
+            }
+
+            return { isSpecial: false };
+        }
+
         function handleSearchPlotting(e) {
             e.preventDefault();
-            const q = document.getElementById('inputPlotting').value.trim().toLowerCase();
+            const inputVal = document.getElementById('inputPlotting').value.trim();
+            const cleanNim = inputVal.replace(/\s+/g, '').toLowerCase();
             const resEl = document.getElementById('resultPlotting');
-            if (!q) return;
+            if (!cleanNim) return;
 
+            // Strict NIM-only matching logic
             const match = dbPlotting.find(st => {
-                const idVal = String(st.id || '').toLowerCase();
-                const namaVal = String(st.nama || '').toLowerCase();
-                return idVal === q || namaVal.includes(q);
+                const stNim = String(st.nim || '').replace(/\s+/g, '').toLowerCase();
+                return stNim === cleanNim;
             });
 
             resEl.classList.remove('hidden');
 
             if (match) {
-                const hasWaLink = match.linkWa && match.linkWa.length > 5 && match.linkWa !== '#';
-                
-                resEl.innerHTML = `
-                    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden p-6 space-y-6">
-                        <div class="flex justify-between items-start border-b pb-4">
-                            <div>
-                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
-                                    <i class="fa-solid fa-user-check mr-1"></i> Ter-Plotting
-                                </span>
-                                <h3 class="text-xl font-bold text-um-navy mt-2">Informasi Asesor Penguji</h3>
-                                <p class="text-xs text-slate-500">Uji Kompetensi LSP-P1 Universitas Negeri Malang</p>
-                            </div>
-                        </div>
+                const cond = evaluateSpecialCondition(match);
+                const hasValidWa = match.linkWa && match.linkWa.length > 5 && match.linkWa !== '#' && !cond.isSpecial;
 
-                        <!-- Data Grid -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm bg-slate-50 p-5 rounded-2xl border border-slate-200/80">
-                            <div>
-                                <span class="text-slate-400 block text-[11px] uppercase font-bold">NIM</span>
-                                <strong class="font-mono text-slate-800 text-base">${escapeHtml(match.id)}</strong>
-                            </div>
-                            <div>
-                                <span class="text-slate-400 block text-[11px] uppercase font-bold">Nama Mahasiswa</span>
-                                <strong class="text-slate-800 text-base">${escapeHtml(match.nama)}</strong>
-                            </div>
-                            <div>
-                                <span class="text-slate-400 block text-[11px] uppercase font-bold">Program Studi</span>
-                                <span class="text-slate-700 font-medium">${escapeHtml(match.prodi)}</span>
-                            </div>
-                            <div>
-                                <span class="text-slate-400 block text-[11px] uppercase font-bold">Skema Sertifikasi</span>
-                                <span class="text-um-blue font-semibold">${escapeHtml(match.skema)}</span>
-                            </div>
-                        </div>
-
-                        <!-- Highlight Asesor Name -->
-                        <div class="bg-gradient-to-br from-um-navy to-um-blue text-white p-5 rounded-2xl shadow-md space-y-1">
-                            <span class="text-xs text-amber-300 uppercase font-bold tracking-wider">Asesor Penguji Anda:</span>
-                            <h4 class="text-lg sm:text-xl font-black">${escapeHtml(match.asesor)}</h4>
-                        </div>
-
-                        <!-- Link WhatsApp Button -->
-                        <div class="pt-2">
-                            ${hasWaLink ? `
-                                <a href="${escapeHtml(match.linkWa)}" target="_blank" rel="noopener noreferrer" 
-                                   class="w-full bg-wa-green hover:bg-wa-hover text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-wa-green/20 transition flex items-center justify-center space-x-3 text-sm sm:text-base cursor-pointer">
-                                    <i class="fa-brands fa-whatsapp text-2xl"></i>
-                                    <span>Gabung ke Grup WhatsApp Peserta</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
-                                </a>
-                            ` : `
-                                <div class="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-xl text-xs flex items-center space-x-3">
-                                    <i class="fa-solid fa-circle-info text-amber-600 text-lg"></i>
-                                    <span>Tautan Grup WhatsApp untuk asesor ini belum tersedia. Silakan cek secara berkala atau hubungi sekretariat LSP.</span>
+                if (cond.isSpecial) {
+                    // Render UI for Disqualified / Special Conditions (NO WA LINK, DISTINCT COLOR)
+                    resEl.innerHTML = `
+                        <div class="bg-white rounded-2xl shadow-xl border-2 overflow-hidden space-y-6 p-6 ${cond.cardBgClass}">
+                            <div class="flex justify-between items-start border-b border-slate-200/60 pb-4">
+                                <div>
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold border ${cond.badgeClass}">
+                                        <i class="${cond.iconClass} mr-1"></i> ${cond.badgeLabel}
+                                    </span>
+                                    <h3 class="text-xl font-extrabold mt-3">${cond.title}</h3>
+                                    <p class="text-xs text-slate-600 mt-1">Hasil Verifikasi Plotting LSP-P1 UM</p>
                                 </div>
-                            `}
+                            </div>
+
+                            <!-- Student Info Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm bg-white/80 p-4 rounded-xl border border-slate-200/80">
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] font-bold uppercase">NIM Mahasiswa</span>
+                                    <strong class="font-mono text-base text-slate-900">${escapeHtml(match.nim)}</strong>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] font-bold uppercase">Nama Mahasiswa</span>
+                                    <strong class="text-slate-900">${escapeHtml(match.nama)}</strong>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] font-bold uppercase">Program Studi</span>
+                                    <span class="text-slate-800 font-medium">${escapeHtml(match.prodi)}</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] font-bold uppercase">Skema Sertifikasi</span>
+                                    <span class="text-um-blue font-semibold">${escapeHtml(match.skema)}</span>
+                                </div>
+                            </div>
+
+                            <!-- Special Alert Message Box (No WhatsApp Link Provided) -->
+                            <div class="p-5 rounded-2xl ${cond.bannerHeaderBg} space-y-2 shadow-md">
+                                <div class="flex items-center space-x-2 text-amber-200 font-bold text-xs uppercase tracking-wider">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <span>Pemberitahuan Khusus Peserta:</span>
+                                </div>
+                                <p class="text-sm font-semibold leading-relaxed">${escapeHtml(cond.description)}</p>
+                            </div>
+
+                            <div class="bg-white/90 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-start space-x-3">
+                                <i class="fa-solid fa-lock text-slate-400 text-base mt-0.5"></i>
+                                <div>
+                                    <strong class="text-slate-800">Tautan WhatsApp Tidak Tersedia:</strong>
+                                    <p class="mt-0.5">Berdasarkan status verifikasi di atas, Anda tidak ditautan ke Grup WhatsApp peserta. Jika membutuhkan klarifikasi lebih lanjut, silakan hubungi Sekretariat LSP-P1 UM.</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    // Standard Plotting Result
+                    resEl.innerHTML = `
+                        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden p-6 space-y-6">
+                            <div class="flex justify-between items-start border-b pb-4">
+                                <div>
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                        <i class="fa-solid fa-user-check mr-1"></i> Ter-Plotting Asesor
+                                    </span>
+                                    <h3 class="text-xl font-bold text-um-navy mt-2">Informasi Asesor Penguji</h3>
+                                    <p class="text-xs text-slate-500">Uji Kompetensi LSP-P1 Universitas Negeri Malang</p>
+                                </div>
+                            </div>
+
+                            <!-- Data Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm bg-slate-50 p-5 rounded-2xl border border-slate-200/80">
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] uppercase font-bold">NIM Mahasiswa</span>
+                                    <strong class="font-mono text-slate-800 text-base">${escapeHtml(match.nim)}</strong>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] uppercase font-bold">Nama Mahasiswa</span>
+                                    <strong class="text-slate-800 text-base">${escapeHtml(match.nama)}</strong>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] uppercase font-bold">Program Studi</span>
+                                    <span class="text-slate-700 font-medium">${escapeHtml(match.prodi)}</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400 block text-[11px] uppercase font-bold">Skema Sertifikasi</span>
+                                    <span class="text-um-blue font-semibold">${escapeHtml(match.skema)}</span>
+                                </div>
+                            </div>
+
+                            <!-- Highlight Asesor Name -->
+                            <div class="bg-gradient-to-br from-um-navy to-um-blue text-white p-5 rounded-2xl shadow-md space-y-1">
+                                <span class="text-xs text-amber-300 uppercase font-bold tracking-wider">Asesor Penguji Anda:</span>
+                                <h4 class="text-lg sm:text-xl font-black">${escapeHtml(match.asesor)}</h4>
+                            </div>
+
+                            <!-- Link WhatsApp Button -->
+                            <div class="pt-2">
+                                ${hasValidWa ? `
+                                    <a href="${escapeHtml(match.linkWa)}" target="_blank" rel="noopener noreferrer" 
+                                       class="w-full bg-wa-green hover:bg-wa-hover text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-wa-green/20 transition flex items-center justify-center space-x-3 text-sm sm:text-base cursor-pointer">
+                                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                                        <span>Gabung ke Grup WhatsApp Peserta</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+                                    </a>
+                                ` : `
+                                    <div class="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-xl text-xs flex items-center space-x-3">
+                                        <i class="fa-solid fa-circle-info text-amber-600 text-lg"></i>
+                                        <span>Tautan Grup WhatsApp untuk asesor ini belum tersedia. Silakan cek secara berkala atau hubungi sekretariat LSP.</span>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                }
             } else {
                 resEl.innerHTML = `
                     <div class="bg-white rounded-2xl p-6 text-center shadow border border-slate-200 space-y-3">
                         <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-user-slash"></i></div>
-                        <h4 class="font-bold text-slate-800">Data Plotting Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500">Kata kunci "${escapeHtml(q)}" tidak ditemukan dalam basis data Plotting Asesor.</p>
+                        <h4 class="font-bold text-slate-800">NIM Tidak Ditemukan</h4>
+                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(inputVal)}</span>" tidak ditemukan dalam basis data Plotting Asesor.</p>
                     </div>
                 `;
             }
         }
 
         /* -------------------------------------------------------------
-         * ADMIN & HELPER FUNCTIONS
+         * ADMIN & UTILITY FUNCTIONS
          * ------------------------------------------------------------- */
         function openAdminPortal() {
             toggleModal('adminModal', true);
@@ -809,13 +916,14 @@
                         alertCustom(`Berhasil upload ${dbKelulusan.length} data Kelulusan!`, 'success');
                     } else {
                         dbPlotting = json.map(r => ({
-                            id: String(r.nim || r.nik || r.ID || '').trim(),
+                            nim: String(r.nim || r.NIM || r.nik || r.ID || '').trim(),
                             nama: String(r.nama || r.NAMA || '').trim(),
                             prodi: String(r.prodi || r.PRODI || '-').trim(),
                             skema: String(r.skema || r.SKEMA || '-').trim(),
                             asesor: String(r.asesor || r.ASESOR || '-').trim(),
-                            linkWa: String(r.wa || r.link || r.WA || '#').trim()
-                        })).filter(x => x.id || x.nama);
+                            linkWa: String(r.wa || r.link || r.WA || '#').trim(),
+                            statusText: String(r.status || r.STATUS || r.catatan || '').trim()
+                        })).filter(x => x.nim || x.nama);
                         localStorage.setItem('cache_plotting', JSON.stringify(dbPlotting));
                         alertCustom(`Berhasil upload ${dbPlotting.length} data Plotting!`, 'success');
                     }
@@ -871,7 +979,7 @@
                 .replace(/'/g, "&#039;");
         }
 
-        // Inisialisasi awal
+        // Initialize App
         document.addEventListener("DOMContentLoaded", () => {
             muatDataKelulusan();
             if (URL_PLOTTING) {

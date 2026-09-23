@@ -122,7 +122,7 @@
                     Pusat Informasi & Layanan Peserta UKOM
                 </h2>
                 <p class="text-xs sm:text-sm md:text-base text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-                    Silakan pilih jenis informasi layanan yang ingin Anda akses di bawah ini. Pencarian wajib menggunakan Nomor Induk Mahasiswa (NIM).
+                    Silakan pilih jenis informasi layanan yang ingin Anda akses di bawah ini. Pencarian wajib menggunakan Nomor Induk Mahasiswa (NIM) tepat 12 angka.
                 </p>
             </div>
 
@@ -142,7 +142,7 @@
                                 Cek Kelulusan Administrasi
                             </h3>
                             <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-                                Cek status kelulusan verifikasi berkas pendaftaran UKOM Anda berdasarkan NIM Mahasiswa.
+                                Cek status kelulusan verifikasi berkas pendaftaran UKOM Anda berdasarkan NIM Mahasiswa (12 digit angka).
                             </p>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
                                 Cek Plotting Asesor & Grup WA
                             </h3>
                             <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
-                                Cari pembagian Asesor Penguji menggunakan NIM Anda dan dapatkan tautan Grup WhatsApp.
+                                Cari pembagian Asesor Penguji menggunakan 12 digit NIM Anda dan dapatkan tautan Grup WhatsApp.
                             </p>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
                 </button>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-bold text-um-navy">Pengecekan Kelulusan Administrasi</h2>
-                    <p class="text-xs text-slate-500">Pengecekan berbasis NIM Mahasiswa untuk Gelombang 3</p>
+                    <p class="text-xs text-slate-500">Pengecekan berbasis NIM Mahasiswa (12 digit angka) untuk Gelombang 3</p>
                 </div>
             </div>
 
@@ -206,16 +206,16 @@
                 <form onsubmit="handleSearchKelulusan(event)" class="space-y-4">
                     <div>
                         <label for="inputKelulusan" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                            Masukkan NIM Mahasiswa <span class="text-rose-500">*</span>
+                            Masukkan NIM Mahasiswa (12 Digit Angka) <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-id-card text-sm"></i>
                             </div>
-                            <input type="text" id="inputKelulusan" required placeholder="Contoh: 220531600001" autocomplete="off"
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-um-blue focus:bg-white text-slate-800 text-sm font-medium outline-none">
+                            <input type="text" id="inputKelulusan" required maxlength="12" inputmode="numeric" placeholder="Contoh: 220531600001" autocomplete="off"
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-um-blue focus:bg-white text-slate-800 text-sm font-mono font-medium outline-none transition">
                         </div>
-                        <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-um-blue"></i> Pencarian hanya dapat dilakukan dengan mengisikan <strong>NIM (Nomor Induk Mahasiswa)</strong>.</p>
+                        <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-um-blue"></i> NIM harus berupa <strong>12 digit angka saja</strong> tanpa spasi atau karakter lain.</p>
                     </div>
                     <button type="submit" class="w-full bg-um-navy hover:bg-um-blue text-white font-semibold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2 text-sm">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -235,7 +235,7 @@
                 </button>
                 <div>
                     <h2 class="text-xl sm:text-2xl font-bold text-um-navy">Pengecekan Plotting Asesor & Link WA</h2>
-                    <p class="text-xs text-slate-500">Pengecekan berbasis NIM Mahasiswa untuk Asesor & Grup WhatsApp</p>
+                    <p class="text-xs text-slate-500">Pengecekan berbasis NIM Mahasiswa (12 digit angka) untuk Asesor & Grup WhatsApp</p>
                 </div>
             </div>
 
@@ -253,16 +253,16 @@
                 <form onsubmit="handleSearchPlotting(event)" class="space-y-4">
                     <div>
                         <label for="inputPlotting" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                            Masukkan NIM Mahasiswa <span class="text-rose-500">*</span>
+                            Masukkan NIM Mahasiswa (12 Digit Angka) <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-id-card text-sm"></i>
                             </div>
-                            <input type="text" id="inputPlotting" required placeholder="Contoh: 220531600001" autocomplete="off"
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-600 focus:bg-white text-slate-800 text-sm font-medium outline-none">
+                            <input type="text" id="inputPlotting" required maxlength="12" inputmode="numeric" placeholder="Contoh: 220531600001" autocomplete="off"
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-600 focus:bg-white text-slate-800 text-sm font-mono font-medium outline-none transition">
                         </div>
-                        <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-emerald-600"></i> Pastikan mengisikan <strong>NIM (Nomor Induk Mahasiswa)</strong> secara tepat.</p>
+                        <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-emerald-600"></i> Pastikan memasukkan tepat <strong>12 digit angka NIM</strong> tanpa spasi.</p>
                     </div>
                     <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2 text-sm">
                         <i class="fa-solid fa-user-check"></i>
@@ -408,6 +408,41 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function validateNimFormat(rawInput) {
+            if (!rawInput) {
+                return { valid: false, title: 'Input Kosong', message: 'Silakan masukkan NIM terlebih dahulu.' };
+            }
+
+            // 1. Cek apakah ada spasi
+            if (/\s/.test(rawInput)) {
+                return {
+                    valid: false,
+                    title: 'Terdeteksi Spasi',
+                    message: 'NIM tidak boleh mengandung spasi. Silakan periksa dan hapus spasi pada NIM Anda.'
+                };
+            }
+
+            // 2. Cek apakah ada karakter selain angka (huruf, tanda baca, simbol)
+            if (/[^\d]/.test(rawInput)) {
+                return {
+                    valid: false,
+                    title: 'Karakter Tidak Valid',
+                    message: 'NIM hanya boleh berisi angka (0-9). Ditemukan huruf atau simbol pada input Anda.'
+                };
+            }
+
+            // 3. Cek panjang karakter (wajib tepat 12 digit)
+            if (rawInput.length !== 12) {
+                return {
+                    valid: false,
+                    title: 'Panjang NIM Harus 12 Digit',
+                    message: `NIM Mahasiswa UM harus berjumlah tepat 12 digit angka. Anda memasukkan ${rawInput.length} digit.`
+                };
+            }
+
+            return { valid: true };
+        }
+
         async function fetchCSVData(sheetUrl) {
             if (!sheetUrl) return null;
             const urlsToTry = [
@@ -430,9 +465,6 @@
             return null;
         }
 
-        /* -------------------------------------------------------------
-         * 1. KELULUSAN ADMINISTRASI MODULE
-         * ------------------------------------------------------------- */
         async function muatDataKelulusan(isManual = false) {
             updateBanner('statusBannerKelulusan', 'msgKelulusan', 'loading', 'Mengunduh data Kelulusan...');
 
@@ -505,18 +537,35 @@
 
         function handleSearchKelulusan(e) {
             e.preventDefault();
-            const inputVal = document.getElementById('inputKelulusan').value.trim();
-            const cleanNim = inputVal.replace(/\s+/g, '').toLowerCase();
+            const rawInput = document.getElementById('inputKelulusan').value;
             const resEl = document.getElementById('resultKelulusan');
-            if (!cleanNim) return;
+            resEl.classList.remove('hidden');
+
+            // Jalankan pemeriksaan validasi NIM (12 digit angka, tanpa spasi/karakter lain)
+            const validation = validateNimFormat(rawInput);
+            if (!validation.valid) {
+                resEl.innerHTML = `
+                    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 sm:p-6 text-center shadow-md space-y-3">
+                        <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto text-xl shadow-inner">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <h4 class="font-bold text-amber-950 text-base">${escapeHtml(validation.title)}</h4>
+                        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed max-w-md mx-auto">${escapeHtml(validation.message)}</p>
+                        <div class="text-[11px] text-amber-800 font-mono bg-amber-100/70 py-1.5 px-3 rounded-lg inline-block font-semibold">
+                            Format Baku NIM: 12 Digit Angka (Contoh: 220531600001)
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const cleanNim = rawInput.trim();
 
             // Strict NIM-only matching logic
             const match = dbKelulusan.find(st => {
-                const stNim = String(st.nim || '').replace(/\s+/g, '').toLowerCase();
+                const stNim = String(st.nim || '').trim();
                 return stNim === cleanNim;
             });
-
-            resEl.classList.remove('hidden');
 
             if (match) {
                 const isLulus = match.status.toUpperCase().includes('LULUS') && !match.status.toUpperCase().includes('TIDAK');
@@ -550,15 +599,12 @@
                     <div class="bg-white rounded-2xl p-6 text-center shadow border border-slate-200 space-y-3">
                         <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-id-card-clip"></i></div>
                         <h4 class="font-bold text-slate-800">NIM Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(inputVal)}</span>" tidak terdaftar pada basis data Kelulusan Administrasi Gelombang 3.</p>
+                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(cleanNim)}</span>" tidak terdaftar pada basis data Kelulusan Administrasi Gelombang 3.</p>
                     </div>
                 `;
             }
         }
 
-        /* -------------------------------------------------------------
-         * 2. PLOTTING ASESOR & LINK WA MODULE (WITH SPECIAL CONDITIONS)
-         * ------------------------------------------------------------- */
         async function muatDataPlotting(isManual = false) {
             if (!URL_PLOTTING) {
                 updateBanner('statusBannerPlotting', 'msgPlotting', 'warning', 'Belum ada URL Spreadsheet Plotting Asesor.');
@@ -641,7 +687,6 @@
         }
 
         function evaluateSpecialCondition(item) {
-            // Concatenate relevant fields for thorough condition testing
             const combined = `${item.statusText || ''} ${item.asesor || ''} ${item.linkWa || ''} ${item.prodi || ''}`.toUpperCase();
 
             // Condition 1: PRODI TIDAK SESUAI SKEMA
@@ -694,25 +739,41 @@
 
         function handleSearchPlotting(e) {
             e.preventDefault();
-            const inputVal = document.getElementById('inputPlotting').value.trim();
-            const cleanNim = inputVal.replace(/\s+/g, '').toLowerCase();
+            const rawInput = document.getElementById('inputPlotting').value;
             const resEl = document.getElementById('resultPlotting');
-            if (!cleanNim) return;
+            resEl.classList.remove('hidden');
+
+            // Jalankan pemeriksaan validasi NIM (12 digit angka, tanpa spasi/karakter lain)
+            const validation = validateNimFormat(rawInput);
+            if (!validation.valid) {
+                resEl.innerHTML = `
+                    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 sm:p-6 text-center shadow-md space-y-3">
+                        <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto text-xl shadow-inner">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <h4 class="font-bold text-amber-950 text-base">${escapeHtml(validation.title)}</h4>
+                        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed max-w-md mx-auto">${escapeHtml(validation.message)}</p>
+                        <div class="text-[11px] text-amber-800 font-mono bg-amber-100/70 py-1.5 px-3 rounded-lg inline-block font-semibold">
+                            Format Baku NIM: 12 Digit Angka (Contoh: 220531600001)
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const cleanNim = rawInput.trim();
 
             // Strict NIM-only matching logic
             const match = dbPlotting.find(st => {
-                const stNim = String(st.nim || '').replace(/\s+/g, '').toLowerCase();
+                const stNim = String(st.nim || '').trim();
                 return stNim === cleanNim;
             });
-
-            resEl.classList.remove('hidden');
 
             if (match) {
                 const cond = evaluateSpecialCondition(match);
                 const hasValidWa = match.linkWa && match.linkWa.length > 5 && match.linkWa !== '#' && !cond.isSpecial;
 
                 if (cond.isSpecial) {
-                    // Render UI for Disqualified / Special Conditions (NO WA LINK, DISTINCT COLOR)
                     resEl.innerHTML = `
                         <div class="bg-white rounded-2xl shadow-xl border-2 overflow-hidden space-y-6 p-6 ${cond.cardBgClass}">
                             <div class="flex justify-between items-start border-b border-slate-200/60 pb-4">
@@ -745,7 +806,7 @@
                                 </div>
                             </div>
 
-                            <!-- Special Alert Message Box (No WhatsApp Link Provided) -->
+                            <!-- Special Alert Message Box -->
                             <div class="p-5 rounded-2xl ${cond.bannerHeaderBg} space-y-2 shadow-md">
                                 <div class="flex items-center space-x-2 text-amber-200 font-bold text-xs uppercase tracking-wider">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -764,7 +825,6 @@
                         </div>
                     `;
                 } else {
-                    // Standard Plotting Result
                     resEl.innerHTML = `
                         <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden p-6 space-y-6">
                             <div class="flex justify-between items-start border-b pb-4">
@@ -827,15 +887,12 @@
                     <div class="bg-white rounded-2xl p-6 text-center shadow border border-slate-200 space-y-3">
                         <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-user-slash"></i></div>
                         <h4 class="font-bold text-slate-800">NIM Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(inputVal)}</span>" tidak ditemukan dalam basis data Plotting Asesor.</p>
+                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(cleanNim)}</span>" tidak ditemukan dalam basis data Plotting Asesor.</p>
                     </div>
                 `;
             }
         }
 
-        /* -------------------------------------------------------------
-         * ADMIN & UTILITY FUNCTIONS
-         * ------------------------------------------------------------- */
         function openAdminPortal() {
             toggleModal('adminModal', true);
             if (!isAdminLoggedIn) {

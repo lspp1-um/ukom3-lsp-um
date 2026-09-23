@@ -390,30 +390,61 @@
         const ADMIN_PIN = "ukomgel3lsp";
 
         /**
-         * Cleaning raw NIM string from invisible characters, spaces, decimal endings (.0),
-         * and scientific notation (2.3025E+11) to guarantee 100% accurate match.
+         * Ultra-robust NIM Sanitizer and Extractor.
+         * Handles Indonesian comma decimals (2,30153601994E+11), scientific notation,
+         * Excel formula quotes (='230153601994'), zero-width characters, and non-breaking spaces.
          */
         function sanitizeNim(val) {
             if (val === null || val === undefined) return '';
             let s = String(val).trim()
                 .replace(/[\u200B-\u200D\uFEFF]/g, '') // strip zero-width unicode
                 .replace(/\u00A0/g, '')              // strip non-breaking space
-                .replace(/\s+/g, '');                // strip all whitespaces
+                .replace(/^['"=]+/, '');             // strip leading quotes/equal signs from Excel formulas
 
-            // Strip decimal ending if exported as float from Excel (e.g., "230253602078.0")
-            if (s.endsWith('.0')) {
-                s = s.slice(0, -2);
-            }
-
-            // Convert scientific notation string if needed
-            if (/^\d+(\.\d+)?[eE]\+\d+$/.test(s)) {
+            // Handle scientific notation with comma or dot (e.g., "2,30153601994E+11" or "2.30153601994E+11")
+            let sNormalized = s.replace(',', '.');
+            if (/^\d+(\.\d+)?[eE][+-]?\d+$/.test(sNormalized)) {
                 try {
-                    s = BigInt(Math.round(Number(s))).toString();
+                    const num = Number(sNormalized);
+                    if (!isNaN(num) && isFinite(num)) {
+                        s = BigInt(Math.round(num)).toString();
+                    }
                 } catch(e) {}
             }
 
+            // Strip trailing decimal zeroes (e.g., "230153601994.00" or "230153601994,00")
+            s = s.replace(/[,.]0+$/, '');
+
             // Extract numeric digits only
             return s.replace(/\D/g, '');
+        }
+
+        /**
+         * Scans all cells in a row to extract any 12-digit NIMs.
+         * Ensures 100% discovery even if column headers are shifted or misnamed.
+         */
+        function extractAllNimsFromRow(rowArray) {
+            const foundNims = new Set();
+            if (!Array.isArray(rowArray)) return [];
+
+            rowArray.forEach(cell => {
+                if (!cell) return;
+                const rawStr = String(cell);
+                
+                // Direct cell sanitization
+                const sanitized = sanitizeNim(rawStr);
+                if (sanitized && sanitized.length === 12) {
+                    foundNims.add(sanitized);
+                }
+
+                // Substring regex search for 12-digit sequences
+                const matches = rawStr.match(/\b\d{12}\b/g) || rawStr.match(/\d{12}/g);
+                if (matches) {
+                    matches.forEach(m => foundNims.add(m));
+                }
+            });
+
+            return Array.from(foundNims);
         }
 
         function cleanInputSpaces(inputElement) {
@@ -549,9 +580,14 @@
 
                             if (!nimRaw && !namaVal) continue;
 
+                            const rowNims = extractAllNimsFromRow(row);
+                            const primaryCleanNim = sanitizeNim(nimRaw);
+                            if (primaryCleanNim) rowNims.push(primaryCleanNim);
+
                             processed.push({
                                 nim: nimRaw,
-                                cleanNim: sanitizeNim(nimRaw),
+                                cleanNim: primaryCleanNim || (rowNims[0] || ''),
+                                allNims: rowNims,
                                 nama: namaVal,
                                 prodi: prodiIdx !== -1 ? String(row[prodiIdx] || '').trim() : '-',
                                 skema: skemaIdx !== -1 ? String(row[skemaIdx] || '').trim() : '-',
@@ -599,8 +635,12 @@
 
             const cleanInputNim = validation.cleanNim;
 
-            // Ultra-robust sanitized NIM matching
-            const match = dbKelulusan.find(st => st.cleanNim === cleanInputNim || sanitizeNim(st.nim) === cleanInputNim);
+            // Multi-tier robust NIM search across primary column and all row cells
+            const match = dbKelulusan.find(st => 
+                st.cleanNim === cleanInputNim || 
+                sanitizeNim(st.nim) === cleanInputNim ||
+                (st.allNims && st.allNims.includes(cleanInputNim))
+            );
 
             if (match) {
                 const isLulus = match.status.toUpperCase().includes('LULUS') && !match.status.toUpperCase().includes('TIDAK');
@@ -705,9 +745,14 @@
 
                             if (!nimRaw && !namaVal) continue;
 
+                            const rowNims = extractAllNimsFromRow(row);
+                            const primaryCleanNim = sanitizeNim(nimRaw);
+                            if (primaryCleanNim) rowNims.push(primaryCleanNim);
+
                             processed.push({
                                 nim: nimRaw,
-                                cleanNim: sanitizeNim(nimRaw),
+                                cleanNim: primaryCleanNim || (rowNims[0] || ''),
+                                allNims: rowNims,
                                 nama: namaVal,
                                 prodi: prodiIdx !== -1 ? String(row[prodiIdx] || '').trim() : '-',
                                 skema: skemaIdx !== -1 ? String(row[skemaIdx] || '').trim() : '-',
@@ -804,8 +849,12 @@
 
             const cleanInputNim = validation.cleanNim;
 
-            // Ultra-robust sanitized NIM matching
-            const match = dbPlotting.find(st => st.cleanNim === cleanInputNim || sanitizeNim(st.nim) === cleanInputNim);
+            // Multi-tier robust NIM search across primary column and all row cells
+            const match = dbPlotting.find(st => 
+                st.cleanNim === cleanInputNim || 
+                sanitizeNim(st.nim) === cleanInputNim ||
+                (st.allNims && st.allNims.includes(cleanInputNim))
+            );
 
             if (match) {
                 const cond = evaluateSpecialCondition(match);

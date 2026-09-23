@@ -122,7 +122,7 @@
                     Pusat Informasi & Layanan Peserta UKOM
                 </h2>
                 <p class="text-xs sm:text-sm md:text-base text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-                    Silakan pilih jenis informasi layanan yang ingin Anda akses di bawah ini. Pencarian wajib menggunakan Nomor Induk Mahasiswa (NIM) tepat 12 angka.
+                    Silakan pilih jenis informasi layanan yang ingin Anda akses di bawah ini. Pencarian menggunakan Nomor Induk Mahasiswa (NIM) 12 digit angka.
                 </p>
             </div>
 
@@ -212,7 +212,8 @@
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-id-card text-sm"></i>
                             </div>
-                            <input type="text" id="inputKelulusan" required maxlength="12" inputmode="numeric" placeholder="Contoh: 220531600001" autocomplete="off"
+                            <input type="text" id="inputKelulusan" required maxlength="15" inputmode="numeric" placeholder="Contoh: 230253602078" autocomplete="off"
+                                oninput="cleanInputSpaces(this)"
                                 class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-um-blue focus:bg-white text-slate-800 text-sm font-mono font-medium outline-none transition">
                         </div>
                         <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-um-blue"></i> NIM harus berupa <strong>12 digit angka saja</strong> tanpa spasi atau karakter lain.</p>
@@ -259,7 +260,8 @@
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-id-card text-sm"></i>
                             </div>
-                            <input type="text" id="inputPlotting" required maxlength="12" inputmode="numeric" placeholder="Contoh: 220531600001" autocomplete="off"
+                            <input type="text" id="inputPlotting" required maxlength="15" inputmode="numeric" placeholder="Contoh: 230253602078" autocomplete="off"
+                                oninput="cleanInputSpaces(this)"
                                 class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-600 focus:bg-white text-slate-800 text-sm font-mono font-medium outline-none transition">
                         </div>
                         <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info mr-1 text-emerald-600"></i> Pastikan memasukkan tepat <strong>12 digit angka NIM</strong> tanpa spasi.</p>
@@ -376,7 +378,7 @@
     </footer>
 
     <script>
-        // URL Defaults untuk kedua Google Sheets (CSV Format)
+        // Default Google Sheets published CSV URLs
         let URL_KELULUSAN = localStorage.getItem('lsp_um_url_kelulusan') || "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4jT7tlOszvmHbLOwSgkxzahNkpT3cNlC5UdbEY_vcqnaokJoS2_FWwsXqAV2i5g/pub?output=csv";
         let URL_PLOTTING = localStorage.getItem('lsp_um_url_plotting') || "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ666rhTEXwQBdqzRG_nFdmu7-2h20nG7kZ7blSexhHqYr-8iIRkyGGJuUCIX4w0751GUMCXmeyUg4u/pub?output=csv";
 
@@ -387,7 +389,39 @@
         let isAdminLoggedIn = false;
         const ADMIN_PIN = "ukomgel3lsp";
 
-        // Navigation Controller
+        /**
+         * Cleaning raw NIM string from invisible characters, spaces, decimal endings (.0),
+         * and scientific notation (2.3025E+11) to guarantee 100% accurate match.
+         */
+        function sanitizeNim(val) {
+            if (val === null || val === undefined) return '';
+            let s = String(val).trim()
+                .replace(/[\u200B-\u200D\uFEFF]/g, '') // strip zero-width unicode
+                .replace(/\u00A0/g, '')              // strip non-breaking space
+                .replace(/\s+/g, '');                // strip all whitespaces
+
+            // Strip decimal ending if exported as float from Excel (e.g., "230253602078.0")
+            if (s.endsWith('.0')) {
+                s = s.slice(0, -2);
+            }
+
+            // Convert scientific notation string if needed
+            if (/^\d+(\.\d+)?[eE]\+\d+$/.test(s)) {
+                try {
+                    s = BigInt(Math.round(Number(s))).toString();
+                } catch(e) {}
+            }
+
+            // Extract numeric digits only
+            return s.replace(/\D/g, '');
+        }
+
+        function cleanInputSpaces(inputElement) {
+            if (!inputElement) return;
+            // Remove spaces in real-time
+            inputElement.value = inputElement.value.replace(/\s+/g, '');
+        }
+
         function navigateTo(targetView) {
             document.getElementById('viewHome').classList.add('hidden');
             document.getElementById('viewKelulusan').classList.add('hidden');
@@ -409,38 +443,29 @@
         }
 
         function validateNimFormat(rawInput) {
-            if (!rawInput) {
+            const cleanNim = sanitizeNim(rawInput);
+            
+            if (!rawInput || rawInput.trim().length === 0) {
                 return { valid: false, title: 'Input Kosong', message: 'Silakan masukkan NIM terlebih dahulu.' };
             }
 
-            // 1. Cek apakah ada spasi
-            if (/\s/.test(rawInput)) {
+            if (cleanNim.length === 0) {
                 return {
                     valid: false,
-                    title: 'Terdeteksi Spasi',
-                    message: 'NIM tidak boleh mengandung spasi. Silakan periksa dan hapus spasi pada NIM Anda.'
+                    title: 'Input Tidak Valid',
+                    message: 'NIM harus berupa angka. Silakan periksa kembali ketikan Anda.'
                 };
             }
 
-            // 2. Cek apakah ada karakter selain angka (huruf, tanda baca, simbol)
-            if (/[^\d]/.test(rawInput)) {
-                return {
-                    valid: false,
-                    title: 'Karakter Tidak Valid',
-                    message: 'NIM hanya boleh berisi angka (0-9). Ditemukan huruf atau simbol pada input Anda.'
-                };
-            }
-
-            // 3. Cek panjang karakter (wajib tepat 12 digit)
-            if (rawInput.length !== 12) {
+            if (cleanNim.length !== 12) {
                 return {
                     valid: false,
                     title: 'Panjang NIM Harus 12 Digit',
-                    message: `NIM Mahasiswa UM harus berjumlah tepat 12 digit angka. Anda memasukkan ${rawInput.length} digit.`
+                    message: `NIM Mahasiswa UM harus berjumlah tepat 12 digit angka. Anda memasukkan ${cleanNim.length} digit (${cleanNim}).`
                 };
             }
 
-            return { valid: true };
+            return { valid: true, cleanNim };
         }
 
         async function fetchCSVData(sheetUrl) {
@@ -487,15 +512,27 @@
                     try {
                         const rows = results.data;
                         let headerIdx = 0;
-                        for (let i = 0; i < Math.min(rows.length, 10); i++) {
-                            const r = rows[i].join(" ").toLowerCase();
-                            if (r.includes("nim") || r.includes("nama")) { headerIdx = i; break; }
+                        let maxMatches = 0;
+
+                        // Smart header row finder
+                        for (let i = 0; i < Math.min(rows.length, 15); i++) {
+                            const r = rows[i].map(c => String(c).toLowerCase().trim());
+                            let matches = 0;
+                            r.forEach(cell => {
+                                if (cell.includes('nim') || cell.includes('nama') || cell.includes('prodi') || cell.includes('skema') || cell.includes('status')) {
+                                    matches++;
+                                }
+                            });
+                            if (matches > maxMatches) {
+                                maxMatches = matches;
+                                headerIdx = i;
+                            }
                         }
 
                         const headers = rows[headerIdx].map(h => String(h).trim().toLowerCase());
                         const findCol = (kw) => headers.findIndex(h => kw.some(k => h.includes(k)));
 
-                        const nimIdx = findCol(['nim', 'no. induk', 'nomor induk']);
+                        const nimIdx = findCol(['nim', 'no. induk', 'nomor induk', 'id']);
                         const namaIdx = findCol(['nama', 'mahasiswa', 'peserta']);
                         const prodiIdx = findCol(['prodi', 'program studi', 'jurusan']);
                         const skemaIdx = findCol(['skema', 'sertifikasi']);
@@ -507,13 +544,15 @@
                             const row = rows[i];
                             if (!row || row.length === 0) continue;
 
-                            const nim = nimIdx !== -1 ? String(row[nimIdx] || '').trim() : String(row[0] || '').trim();
-                            const nama = namaIdx !== -1 ? String(row[namaIdx] || '').trim() : String(row[1] || '').trim();
+                            const nimRaw = nimIdx !== -1 ? String(row[nimIdx] || '').trim() : String(row[0] || '').trim();
+                            const namaVal = namaIdx !== -1 ? String(row[namaIdx] || '').trim() : String(row[1] || '').trim();
 
-                            if (!nim && !nama) continue;
+                            if (!nimRaw && !namaVal) continue;
 
                             processed.push({
-                                nim, nama,
+                                nim: nimRaw,
+                                cleanNim: sanitizeNim(nimRaw),
+                                nama: namaVal,
                                 prodi: prodiIdx !== -1 ? String(row[prodiIdx] || '').trim() : '-',
                                 skema: skemaIdx !== -1 ? String(row[skemaIdx] || '').trim() : '-',
                                 status: statusIdx !== -1 ? String(row[statusIdx] || 'LULUS').trim() : 'LULUS',
@@ -541,7 +580,6 @@
             const resEl = document.getElementById('resultKelulusan');
             resEl.classList.remove('hidden');
 
-            // Jalankan pemeriksaan validasi NIM (12 digit angka, tanpa spasi/karakter lain)
             const validation = validateNimFormat(rawInput);
             if (!validation.valid) {
                 resEl.innerHTML = `
@@ -552,20 +590,17 @@
                         <h4 class="font-bold text-amber-950 text-base">${escapeHtml(validation.title)}</h4>
                         <p class="text-xs sm:text-sm text-amber-900 leading-relaxed max-w-md mx-auto">${escapeHtml(validation.message)}</p>
                         <div class="text-[11px] text-amber-800 font-mono bg-amber-100/70 py-1.5 px-3 rounded-lg inline-block font-semibold">
-                            Format Baku NIM: 12 Digit Angka (Contoh: 220531600001)
+                            Format Baku NIM: 12 Digit Angka (Contoh: 230253602078)
                         </div>
                     </div>
                 `;
                 return;
             }
 
-            const cleanNim = rawInput.trim();
+            const cleanInputNim = validation.cleanNim;
 
-            // Strict NIM-only matching logic
-            const match = dbKelulusan.find(st => {
-                const stNim = String(st.nim || '').trim();
-                return stNim === cleanNim;
-            });
+            // Ultra-robust sanitized NIM matching
+            const match = dbKelulusan.find(st => st.cleanNim === cleanInputNim || sanitizeNim(st.nim) === cleanInputNim);
 
             if (match) {
                 const isLulus = match.status.toUpperCase().includes('LULUS') && !match.status.toUpperCase().includes('TIDAK');
@@ -599,7 +634,7 @@
                     <div class="bg-white rounded-2xl p-6 text-center shadow border border-slate-200 space-y-3">
                         <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-id-card-clip"></i></div>
                         <h4 class="font-bold text-slate-800">NIM Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(cleanNim)}</span>" tidak terdaftar pada basis data Kelulusan Administrasi Gelombang 3.</p>
+                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(cleanInputNim)}</span>" tidak terdaftar pada basis data Kelulusan Administrasi Gelombang 3.</p>
                     </div>
                 `;
             }
@@ -632,18 +667,27 @@
                     try {
                         const rows = results.data;
                         let headerIdx = 0;
-                        for (let i = 0; i < Math.min(rows.length, 10); i++) {
-                            const r = rows[i].join(" ").toLowerCase();
-                            if (r.includes("nim") || r.includes("nik") || r.includes("nama") || r.includes("asesor")) { 
-                                headerIdx = i; 
-                                break; 
+                        let maxMatches = 0;
+
+                        // Smart header row finder
+                        for (let i = 0; i < Math.min(rows.length, 15); i++) {
+                            const r = rows[i].map(c => String(c).toLowerCase().trim());
+                            let matches = 0;
+                            r.forEach(cell => {
+                                if (cell.includes('nim') || cell.includes('nama') || cell.includes('asesor') || cell.includes('prodi') || cell.includes('wa') || cell.includes('grup')) {
+                                    matches++;
+                                }
+                            });
+                            if (matches > maxMatches) {
+                                maxMatches = matches;
+                                headerIdx = i;
                             }
                         }
 
                         const headers = rows[headerIdx].map(h => String(h).trim().toLowerCase());
                         const findCol = (kw) => headers.findIndex(h => kw.some(k => h.includes(k)));
 
-                        const nimIdx = findCol(['nim', 'no. induk', 'nomor induk', 'id']);
+                        const nimIdx = findCol(['nim', 'no. induk', 'nomor induk', 'id', 'nik']);
                         const namaIdx = findCol(['nama', 'mahasiswa', 'peserta']);
                         const prodiIdx = findCol(['prodi', 'program studi', 'jurusan']);
                         const skemaIdx = findCol(['skema', 'sertifikasi']);
@@ -656,13 +700,14 @@
                             const row = rows[i];
                             if (!row || row.length === 0) continue;
 
-                            const nimVal = nimIdx !== -1 ? String(row[nimIdx] || '').trim() : String(row[0] || '').trim();
+                            const nimRaw = nimIdx !== -1 ? String(row[nimIdx] || '').trim() : String(row[0] || '').trim();
                             const namaVal = namaIdx !== -1 ? String(row[namaIdx] || '').trim() : String(row[1] || '').trim();
 
-                            if (!nimVal && !namaVal) continue;
+                            if (!nimRaw && !namaVal) continue;
 
                             processed.push({
-                                nim: nimVal,
+                                nim: nimRaw,
+                                cleanNim: sanitizeNim(nimRaw),
                                 nama: namaVal,
                                 prodi: prodiIdx !== -1 ? String(row[prodiIdx] || '').trim() : '-',
                                 skema: skemaIdx !== -1 ? String(row[skemaIdx] || '').trim() : '-',
@@ -689,7 +734,6 @@
         function evaluateSpecialCondition(item) {
             const combined = `${item.statusText || ''} ${item.asesor || ''} ${item.linkWa || ''} ${item.prodi || ''}`.toUpperCase();
 
-            // Condition 1: PRODI TIDAK SESUAI SKEMA
             if (combined.includes("PRODI TIDAK SESUAI SKEMA") || combined.includes("SKEMA TIDAK SESUAI PRODI")) {
                 return {
                     isSpecial: true,
@@ -704,7 +748,6 @@
                 };
             }
 
-            // Condition 2: Maaf anda sudah pernah mengikuti gelombang sebelumnya
             if (combined.includes("SUDAH PERNAH MENGIKUTI GELOMBANG SEBELUMNYA") || combined.includes("PERNAH MENGIKUTI GELOMBANG")) {
                 return {
                     isSpecial: true,
@@ -719,7 +762,6 @@
                 };
             }
 
-            // Condition 3: Mohon maaf, setelah dilakukan pengecekan prodi anda dinyatakan tidak sesuai
             if (combined.includes("PRODI ANDA DINYATAKAN TIDAK SESUAI") || combined.includes("DINYATAKAN TIDAK SESUAI")) {
                 return {
                     isSpecial: true,
@@ -743,7 +785,6 @@
             const resEl = document.getElementById('resultPlotting');
             resEl.classList.remove('hidden');
 
-            // Jalankan pemeriksaan validasi NIM (12 digit angka, tanpa spasi/karakter lain)
             const validation = validateNimFormat(rawInput);
             if (!validation.valid) {
                 resEl.innerHTML = `
@@ -754,20 +795,17 @@
                         <h4 class="font-bold text-amber-950 text-base">${escapeHtml(validation.title)}</h4>
                         <p class="text-xs sm:text-sm text-amber-900 leading-relaxed max-w-md mx-auto">${escapeHtml(validation.message)}</p>
                         <div class="text-[11px] text-amber-800 font-mono bg-amber-100/70 py-1.5 px-3 rounded-lg inline-block font-semibold">
-                            Format Baku NIM: 12 Digit Angka (Contoh: 220531600001)
+                            Format Baku NIM: 12 Digit Angka (Contoh: 230253602078)
                         </div>
                     </div>
                 `;
                 return;
             }
 
-            const cleanNim = rawInput.trim();
+            const cleanInputNim = validation.cleanNim;
 
-            // Strict NIM-only matching logic
-            const match = dbPlotting.find(st => {
-                const stNim = String(st.nim || '').trim();
-                return stNim === cleanNim;
-            });
+            // Ultra-robust sanitized NIM matching
+            const match = dbPlotting.find(st => st.cleanNim === cleanInputNim || sanitizeNim(st.nim) === cleanInputNim);
 
             if (match) {
                 const cond = evaluateSpecialCondition(match);
@@ -887,7 +925,7 @@
                     <div class="bg-white rounded-2xl p-6 text-center shadow border border-slate-200 space-y-3">
                         <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-user-slash"></i></div>
                         <h4 class="font-bold text-slate-800">NIM Tidak Ditemukan</h4>
-                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(cleanNim)}</span>" tidak ditemukan dalam basis data Plotting Asesor.</p>
+                        <p class="text-xs text-slate-500">NIM "<span class="font-mono font-bold">${escapeHtml(cleanInputNim)}</span>" tidak ditemukan dalam basis data Plotting Asesor.</p>
                     </div>
                 `;
             }
@@ -961,26 +999,34 @@
                     const json = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
                     if (type === 'kelulusan') {
-                        dbKelulusan = json.map(r => ({
-                            nim: String(r.nim || r.NIM || '').trim(),
-                            nama: String(r.nama || r.NAMA || '').trim(),
-                            prodi: String(r.prodi || r.PRODI || '-').trim(),
-                            skema: String(r.skema || r.SKEMA || '-').trim(),
-                            status: String(r.status || r.STATUS || 'LULUS').trim(),
-                            catatan: String(r.catatan || r.CATATAN || 'Berkas terverifikasi.').trim()
-                        })).filter(x => x.nim || x.nama);
+                        dbKelulusan = json.map(r => {
+                            const nimVal = String(r.nim || r.NIM || '').trim();
+                            return {
+                                nim: nimVal,
+                                cleanNim: sanitizeNim(nimVal),
+                                nama: String(r.nama || r.NAMA || '').trim(),
+                                prodi: String(r.prodi || r.PRODI || '-').trim(),
+                                skema: String(r.skema || r.SKEMA || '-').trim(),
+                                status: String(r.status || r.STATUS || 'LULUS').trim(),
+                                catatan: String(r.catatan || r.CATATAN || 'Berkas terverifikasi.').trim()
+                            };
+                        }).filter(x => x.cleanNim || x.nama);
                         localStorage.setItem('cache_kelulusan', JSON.stringify(dbKelulusan));
                         alertCustom(`Berhasil upload ${dbKelulusan.length} data Kelulusan!`, 'success');
                     } else {
-                        dbPlotting = json.map(r => ({
-                            nim: String(r.nim || r.NIM || r.nik || r.ID || '').trim(),
-                            nama: String(r.nama || r.NAMA || '').trim(),
-                            prodi: String(r.prodi || r.PRODI || '-').trim(),
-                            skema: String(r.skema || r.SKEMA || '-').trim(),
-                            asesor: String(r.asesor || r.ASESOR || '-').trim(),
-                            linkWa: String(r.wa || r.link || r.WA || '#').trim(),
-                            statusText: String(r.status || r.STATUS || r.catatan || '').trim()
-                        })).filter(x => x.nim || x.nama);
+                        dbPlotting = json.map(r => {
+                            const nimVal = String(r.nim || r.NIM || r.nik || r.ID || '').trim();
+                            return {
+                                nim: nimVal,
+                                cleanNim: sanitizeNim(nimVal),
+                                nama: String(r.nama || r.NAMA || '').trim(),
+                                prodi: String(r.prodi || r.PRODI || '-').trim(),
+                                skema: String(r.skema || r.SKEMA || '-').trim(),
+                                asesor: String(r.asesor || r.ASESOR || '-').trim(),
+                                linkWa: String(r.wa || r.link || r.WA || '#').trim(),
+                                statusText: String(r.status || r.STATUS || r.catatan || '').trim()
+                            };
+                        }).filter(x => x.cleanNim || x.nama);
                         localStorage.setItem('cache_plotting', JSON.stringify(dbPlotting));
                         alertCustom(`Berhasil upload ${dbPlotting.length} data Plotting!`, 'success');
                     }
